@@ -46,8 +46,9 @@ Adafruit_FRAM_I2C::Adafruit_FRAM_I2C(void)
     doing anything else)
 */
 /**************************************************************************/
-boolean Adafruit_FRAM_I2C::begin(void) 
+boolean Adafruit_FRAM_I2C::begin(uint8_t addr) 
 {
+  i2c_addr = addr;
   Wire.begin();
   
   /* Make sure we're actually connected */
@@ -84,9 +85,9 @@ boolean Adafruit_FRAM_I2C::begin(void)
                 The 8-bit value to write at framAddr
 */
 /**************************************************************************/
-void Adafruit_FRAM_I2C::write8 (uint8_t i2cAddr, uint16_t framAddr, uint8_t value)
+void Adafruit_FRAM_I2C::write8 (uint16_t framAddr, uint8_t value)
 {
-  Wire.beginTransmission(MB85RC_ADDRESS);
+  Wire.beginTransmission(i2c_addr);
   Wire.write(framAddr >> 8);
   Wire.write(framAddr & 0xFF);
   Wire.write(value);
@@ -105,14 +106,14 @@ void Adafruit_FRAM_I2C::write8 (uint8_t i2cAddr, uint16_t framAddr, uint8_t valu
     @returns    The 8-bit value retrieved at framAddr
 */
 /**************************************************************************/
-uint8_t Adafruit_FRAM_I2C::read8 (uint8_t i2cAddr, uint16_t framAddr)
+uint8_t Adafruit_FRAM_I2C::read8 (uint16_t framAddr)
 {
-  Wire.beginTransmission(MB85RC_ADDRESS);
+  Wire.beginTransmission(i2c_addr);
   Wire.write(framAddr >> 8);
   Wire.write(framAddr & 0xFF);
   Wire.endTransmission();
 
-  Wire.requestFrom(MB85RC_ADDRESS, 1);
+  Wire.requestFrom(i2c_addr, (uint8_t)1);
   
   return Wire.read();
 }
@@ -135,7 +136,7 @@ void Adafruit_FRAM_I2C::getDeviceID(uint16_t *manufacturerID, uint16_t *productI
   uint8_t results;
   
   Wire.beginTransmission(MB85RC_SLAVE_ID >> 1);
-  Wire.write(MB85RC_ADDRESS << 1);
+  Wire.write(i2c_addr << 1);
   results = Wire.endTransmission(false);
 
   Wire.requestFrom(MB85RC_SLAVE_ID >> 1, 3);

@@ -44,19 +44,20 @@
 
 #include <Wire.h>
 
-#define MB85RC_ADDRESS            (0x57)    /* 1010 + A2 + A1 + A0 = 1010111 = 0x57 */
-#define MB85RC_SLAVE_ID           (0xF8)
+#define MB85RC_ADDRESS        (0x50) /* 1010 + A2 + A1 + A0 = 0x50 default */
+#define MB85RC_SLAVE_ID       (0xF8)
 
 class Adafruit_FRAM_I2C {
  public:
   Adafruit_FRAM_I2C(void);
   
-  boolean  begin(void);
-  void     write8 (uint8_t i2cAddr, uint16_t framAddr, uint8_t value);
-  uint8_t  read8  (uint8_t i2cAddr, uint16_t framAddr);
+  boolean  begin(uint8_t addr = MB85RC_ADDRESS);
+  void     write8 (uint16_t framAddr, uint8_t value);
+  uint8_t  read8  (uint16_t framAddr);
   void     getDeviceID(uint16_t *manufacturerID, uint16_t *productID);
 
  private:
+  uint8_t i2c_addr;
   boolean _framInitialised;
 };
 
