@@ -42,9 +42,5 @@ void setup(void) {
 }
 
 void loop(void) {
-  uint8_t value = fram.read8(framAddr);
-  Serial.print("0x"); Serial.print(framAddr, HEX); Serial.print(": ");
-  Serial.println(value, HEX);
-  framAddr++;
-  delay(1000);
+
 }
