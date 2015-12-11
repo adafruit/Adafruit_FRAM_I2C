@@ -56,14 +56,14 @@ boolean Adafruit_FRAM_I2C::begin(uint8_t addr)
   getDeviceID(&manufID, &prodID);
   if (manufID != 0x00A)
   {
-    Serial.print("Unexpected Manufacturer ID: 0x");
-    Serial.println(manufID, HEX);
+    //Serial.print("Unexpected Manufacturer ID: 0x");
+    //Serial.println(manufID, HEX);
     return false;
   }
   if (prodID != 0x510)
   {
-    Serial.print("Unexpected Product ID: 0x");
-    Serial.println(prodID, HEX);
+    //Serial.print("Unexpected Product ID: 0x");
+    //Serial.println(prodID, HEX);
     return false;
   }
 
