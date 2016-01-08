@@ -17,16 +17,16 @@ void setup(void) {
   if (fram.begin()) {  // you can stick the new i2c addr in here, e.g. begin(0x51);
     Serial.println("Found I2C FRAM");
   } else {
-    Serial.println("No I2C FRAM found ... check your connections\r\n");
-    while (1);
+    Serial.println("I2C FRAM not identified ... check your connections?\r\n");
+    Serial.println("Will continue in case this processor doesn't support repeated start\r\n");
   }
   
   // Read the first byte
   uint8_t test = fram.read8(0x0);
-   Serial.print("Restarted "); Serial.print(test); Serial.println(" times");
+  Serial.print("Restarted "); Serial.print(test); Serial.println(" times");
   // Test write ++
-   fram.write8(0x0, test+1);
-   
+  fram.write8(0x0, test+1);
+  
   // dump the entire 32K of memory!
   uint8_t value;
   for (uint16_t a = 0; a < 32768; a++) {
