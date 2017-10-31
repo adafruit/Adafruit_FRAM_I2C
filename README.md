@@ -32,7 +32,7 @@ Atmega32u4 @ 8MHz  |      X       |             |            |
 ESP8266            |      X       |             |            | 
 Atmega2560 @ 16MHz |      X       |             |            | 
 ATSAM3X8E          |             |      X       |            | &quot;No I2C FRAM found ... check your connections&quot; on D20/D21 and SDA1/SCL1
-ATSAM21D           |             |      X       |            | Serial code added &quot;No I2C FRAM found ... check your connections&quot;
+ATSAMD21           |      X       |             |            | Serial code added &quot;No I2C FRAM found ... check your connections&quot;
 ATtiny85 @ 16MHz   |             |      X       |            | 
 ATtiny85 @ 8MHz    |             |      X       |            | 
 Intel Curie @ 32MHz |             |             |     X       | 
@@ -45,7 +45,7 @@ STM32F2            |             |             |     X       |
   * ESP8266 : Adafruit Huzzah
   * ATmega2560 @ 16MHz : Arduino Mega
   * ATSAM3X8E : Arduino Due
-  * ATSAM21D : Arduino Zero, M0 Pro
+  * ATSAMD21 : Arduino Zero, M0 Pro
   * ATtiny85 @ 16MHz : Adafruit Trinket 5V
   * ATtiny85 @ 8MHz : Adafruit Gemma, Arduino Gemma, Adafruit Trinket 3V
 
