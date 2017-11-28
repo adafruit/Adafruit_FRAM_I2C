@@ -31,7 +31,7 @@
     Constructor
 */
 /**************************************************************************/
-Adafruit_FRAM_I2C::Adafruit_FRAM_I2C(void) 
+Adafruit_FRAM_I2C::Adafruit_FRAM_I2C(void)
 {
   _framInitialised = false;
 }
@@ -46,11 +46,13 @@ Adafruit_FRAM_I2C::Adafruit_FRAM_I2C(void)
     doing anything else)
 */
 /**************************************************************************/
-boolean Adafruit_FRAM_I2C::begin(uint8_t addr) 
+boolean Adafruit_FRAM_I2C::begin(uint8_t addr, uint8_t nAddressSizeBytes)
 {
   i2c_addr = addr;
+  setAddressSize(nAddressSizeBytes);
+
   Wire.begin();
-  
+
   /* Make sure we're actually connected */
   uint16_t manufID, prodID;
   getDeviceID(&manufID, &prodID);
@@ -76,46 +78,100 @@ boolean Adafruit_FRAM_I2C::begin(uint8_t addr)
 /**************************************************************************/
 /*!
     @brief  Writes a byte at the specific FRAM address
-    
-    @params[in] i2cAddr
-                The I2C address of the FRAM memory chip (1010+A2+A1+A0)
+
     @params[in] framAddr
-                The 16-bit address to write to in FRAM memory
+                The 32/24/16-bit address to write to in FRAM memory
     @params[in] i2cAddr
                 The 8-bit value to write at framAddr
 */
 /**************************************************************************/
-void Adafruit_FRAM_I2C::write8 (uint16_t framAddr, uint8_t value)
+void Adafruit_FRAM_I2C::write8 (uint32_t framAddr, uint8_t value)
 {
   Wire.beginTransmission(i2c_addr);
-  Wire.write(framAddr >> 8);
-  Wire.write(framAddr & 0xFF);
+  writeAddress(framAddr);
   Wire.write(value);
   Wire.endTransmission();
 }
 
 /**************************************************************************/
 /*!
+    @brief  Writes count bytes starting at the specific FRAM address
+
+    @params[in] framAddr
+                The 32/24/26-bit address to write to in FRAM memory
+    @params[in] values
+                The pointer to an array of 8-bit values to write starting at addr
+    @params[in] count
+                The number of bytes to write
+*/
+/**************************************************************************/
+void Adafruit_FRAM_I2C::write (uint32_t framAddr, const uint8_t *values, size_t count)
+{
+  Wire.beginTransmission(i2c_addr);
+  writeAddress(framAddr);
+  for (size_t i = 0; i < count; i++)
+  {
+    Wire.write(values[i]);
+  }
+  Wire.endTransmission();
+}
+
+
+/**************************************************************************/
+/*!
     @brief  Reads an 8 bit value from the specified FRAM address
 
-    @params[in] i2cAddr
-                The I2C address of the FRAM memory chip (1010+A2+A1+A0)
     @params[in] framAddr
-                The 16-bit address to read from in FRAM memory
+                The 32/24/16-bit address to read from in FRAM memory
 
     @returns    The 8-bit value retrieved at framAddr
 */
 /**************************************************************************/
-uint8_t Adafruit_FRAM_I2C::read8 (uint16_t framAddr)
+uint8_t Adafruit_FRAM_I2C::read8 (uint32_t framAddr)
 {
   Wire.beginTransmission(i2c_addr);
-  Wire.write(framAddr >> 8);
-  Wire.write(framAddr & 0xFF);
+  writeAddress(framAddr);
   Wire.endTransmission();
 
   Wire.requestFrom(i2c_addr, (uint8_t)1);
-  
+
   return Wire.read();
+}
+
+/**************************************************************************/
+/*!
+    @brief  Read count bytes starting at the specific FRAM address
+
+    @params[in] framAddr
+                The 32/24/16-bit address to write to in FRAM memory
+    @params[out] values
+                The pointer to an array of 8-bit values to read starting at addr
+    @params[in] count
+                The number of bytes to read
+*/
+/**************************************************************************/
+void Adafruit_FRAM_I2C::read (uint32_t framAddr, uint8_t *values, size_t count)
+{
+  size_t hasRead = 0;
+  size_t toRead = count;
+
+  Wire.beginTransmission(i2c_addr);
+  writeAddress(framAddr);
+  Wire.endTransmission();
+  while (count > 0)
+  {
+    uint8_t block = (toRead>=32) ? 32 : toRead;
+    toRead -= block;
+    Wire.requestFrom(i2c_addr, block, true);
+    while (Wire.Available())
+    {
+      values[hasRead++] = Wire.read();
+    }
+  }
+  if (hasRead != count)
+  {
+	  // Something went wrong...
+  }
 }
 
 /**************************************************************************/
@@ -134,7 +190,7 @@ void Adafruit_FRAM_I2C::getDeviceID(uint16_t *manufacturerID, uint16_t *productI
 {
   uint8_t a[3] = { 0, 0, 0 };
   uint8_t results;
-  
+
   Wire.beginTransmission(MB85RC_SLAVE_ID >> 1);
   Wire.write(i2c_addr << 1);
   results = Wire.endTransmission(false);
@@ -148,4 +204,28 @@ void Adafruit_FRAM_I2C::getDeviceID(uint16_t *manufacturerID, uint16_t *productI
   /* See p.10 of http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RC256V-DS501-00017-3v0-E.pdf */
   *manufacturerID = (a[0] << 4) + (a[1]  >> 4);
   *productID = ((a[1] & 0x0F) << 8) + a[2];
+}
+
+/**************************************************************************/
+/*!
+    @brief  Sets the byte width of the address bus to be used
+
+    @params[in] nAddressSize
+                The address byte width: 1,2 or 4 (16bit/24bit/32bit)
+*/
+/**************************************************************************/
+void Adafruit_FRAM_I2C::setAddressSize(uint8_t nAddressSize)
+{
+  _nAddressSizeBytes = nAddressSize;
+}
+
+
+void Adafruit_FRAM_I2C::writeAddress(uint32_t addr)
+{
+  if (_nAddressSizeBytes>3)
+  	Wire.write((uint8_t)(addr >> 24));
+  if (_nAddressSizeBytes>2)
+  	Wire.write((uint8_t)(addr >> 16));
+  Wire.write((uint8_t)(addr >> 8));
+  Wire.write((uint8_t)(addr & 0xFF));
 }
