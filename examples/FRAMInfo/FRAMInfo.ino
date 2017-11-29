@@ -1,11 +1,15 @@
-#define USE_I2C
 
-/* Example code to interrogate Adafruit SPI FRAM breakout for address size and storage capacity */
+/* Example code to interrogate Adafruit SPI/I2C FRAM breakout for address size and storage capacity */
 
 /* NOTE: This sketch will overwrite data already on the FRAM breakout */
 
-#ifdef USE_I2C
+#define USE_I2C	// Comment this out to use SPI
+#ifndef USE_I2C
+#define USE_SPI
+#endif
 
+
+#ifdef USE_I2C
 #include "Adafruit_FRAM_I2C.h"
 /* Example code for the Adafruit I2C FRAM breakout */
 
@@ -16,14 +20,14 @@
    
 Adafruit_FRAM_I2C fram = Adafruit_FRAM_I2C();
 uint16_t          framAddr = 0;
-void writeEnable(bool B)
-{
-}
+#define writeEnable(B)
 
-#else
+#else // USE_SPI
 
 #include <SPI.h>
 #include "Adafruit_FRAM_SPI.h"
+/* Example code for the Adafruit SPI FRAM breakout */
+
 uint8_t FRAM_CS = 10;
 Adafruit_FRAM_SPI fram = Adafruit_FRAM_SPI();  // use hardware SPI
 uint8_t FRAM_SCK = 13;
@@ -31,25 +35,24 @@ uint8_t FRAM_MISO = 12;
 uint8_t FRAM_MOSI = 11;
 //Or use software SPI, any pins!
 //Adafruit_FRAM_SPI fram = Adafruit_FRAM_SPI(FRAM_SCK, FRAM_MISO, FRAM_MOSI, FRAM_CS);
-void writeEnable(bool B)
-{
-  fram.writeEnable(B);
-}
-#endif
+#define writeEnable(B) fram.writeEnable(B);
 
-bool DEBUG_DATA = false;
-uint8_t           addrSizeInBytes = 2; //Default to address size of two bytes
-uint32_t          memSize;
-#define BUFFER_SIZE 256
-uint32_t writeOffset = 0;
-uint8_t writeBuffer[BUFFER_SIZE];
-uint8_t readBuffer[BUFFER_SIZE];
-int errorCount = 0;
+#endif
 
 #if defined(ARDUINO_ARCH_SAMD)
 // for Zero, output on USB Serial console, remove line below if using programming port to program the Zero!
    #define Serial SerialUSB
 #endif
+
+
+bool DEBUG_DATA = false;
+uint8_t  addrSizeInBytes = 2; //Default to address size of two bytes
+uint32_t memSize;
+#define BUFFER_SIZE 256
+uint32_t writeOffset = 0;
+uint8_t writeBuffer[BUFFER_SIZE];
+uint8_t readBuffer[BUFFER_SIZE];
+int errorCount = 0;
 
 
 int32_t readBack(uint32_t addr, int32_t data) {
@@ -70,6 +73,7 @@ int32_t readBack(uint32_t addr, int32_t data) {
   return check;
 }
 
+
 bool testAddrSize(uint8_t addrSize) {
   fram.setAddressSize(addrSize);
   if (readBack(4, 0xbeefbead) == 0xbeefbead)
@@ -86,8 +90,8 @@ void setup(void) {
   Serial.begin(115200);
   
 #ifdef USE_I2C
-  if (fram.begin()) {
-#else
+  if (fram.begin(MB85RC_DEFAULT_ADDRESS, addrSizeInBytes)) {
+#else // USE_SPI
   if (fram.begin(FRAM_CS, addrSizeInBytes)) {
 #endif
     Serial.println("Found FRAM");
@@ -103,7 +107,7 @@ void setup(void) {
   else if (testAddrSize(4))
     addrSizeInBytes = 4;
   else {
-    Serial.println("SPI FRAM can not be read/written with any address size\r\n");
+    Serial.println("FRAM can not be read/written with any address size\r\n");
     while (1);
   }
   
@@ -111,7 +115,6 @@ void setup(void) {
   while (readBack(memSize, memSize) == memSize) {
     memSize += 256;
     //Serial.print("Block: #"); Serial.println(memSize/256);
-   
   }
   
   Serial.print("FRAM address size is ");
@@ -143,6 +146,7 @@ void loop(void) {
     writeEnable(true);
     fram.write(writeOffset, (uint8_t*)writeBuffer, len);
     writeEnable(false);
+    // Mark the read buffer with something we will recognise
     for (i=0; i<BUFFER_SIZE; i++)
       readBuffer[i] = 0xcd;
     fram.read(writeOffset, (uint8_t*)readBuffer, len);
@@ -162,7 +166,6 @@ void loop(void) {
     else if (DEBUG_DATA)
     {
       uint8_t x = 0;
-      //Serial.print("size_t == "); Serial.println(sizeof(size_t));
       Serial.print("Read "); Serial.print(len); Serial.println(" bytes.. ");
       for (i=0; i<len; i++)
       {
