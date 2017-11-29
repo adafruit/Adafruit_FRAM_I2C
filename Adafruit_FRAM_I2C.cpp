@@ -22,6 +22,14 @@
 
 #include "Adafruit_FRAM_I2C.h"
 
+// DEV_DBG: Do not check in with this defined.
+//#define DEV_DBG
+
+// This is the maximum number of bytes that can be received in one go (UNO)
+#define MULTIBYTE_BLOCK_RX_LEN 32
+// This is the maximum number of bytes that can be sent in one go (UNO)
+#define MULTIBYTE_BLOCK_TX_LEN 30
+
 /*========================================================================*/
 /*                            CONSTRUCTORS                                */
 /*========================================================================*/
@@ -56,16 +64,18 @@ boolean Adafruit_FRAM_I2C::begin(uint8_t addr, uint8_t nAddressSizeBytes)
   /* Make sure we're actually connected */
   uint16_t manufID, prodID;
   getDeviceID(&manufID, &prodID);
-  if (manufID != 0x00A)
+  if (manufID != 0x00A && manufID != 0x7f)
   {
-    //Serial.print("Unexpected Manufacturer ID: 0x");
-    //Serial.println(manufID, HEX);
+#ifdef DEV_DBG
+    Serial.print("Unexpected Manufacturer ID: 0x"); Serial.println(manufID, HEX);
+#endif
     return false;
   }
-  if (prodID != 0x510)
+  if (prodID != 0x510 && prodID != 0x7f7f)
   {
-    //Serial.print("Unexpected Product ID: 0x");
-    //Serial.println(prodID, HEX);
+#ifdef DEV_DBG
+    Serial.print("Unexpected Product ID: 0x"); Serial.println(prodID, HEX);
+#endif
     return false;
   }
 
@@ -103,17 +113,36 @@ void Adafruit_FRAM_I2C::write8 (uint32_t framAddr, uint8_t value)
                 The pointer to an array of 8-bit values to write starting at addr
     @params[in] count
                 The number of bytes to write
+
+    @returns    true if success false if failed
 */
 /**************************************************************************/
-void Adafruit_FRAM_I2C::write (uint32_t framAddr, const uint8_t *values, size_t count)
+uint32_t Adafruit_FRAM_I2C::write (uint32_t framAddr, const uint8_t *values, uint32_t count)
 {
-  Wire.beginTransmission(i2c_addr);
-  writeAddress(framAddr);
-  for (size_t i = 0; i < count; i++)
+  uint32_t hasWritten = 0;
+  uint32_t toWrite = count;
+
+  while (toWrite > 0)
   {
-    Wire.write(values[i]);
+    Wire.beginTransmission(i2c_addr);
+    writeAddress(framAddr+hasWritten);
+    uint8_t block = (toWrite > MULTIBYTE_BLOCK_TX_LEN) ? MULTIBYTE_BLOCK_TX_LEN : toWrite;
+    uint8_t done = Wire.write(&values[hasWritten], block);
+    toWrite -= done;
+    hasWritten += done;
+    Wire.endTransmission();
   }
-  Wire.endTransmission();
+#ifdef DEV_DBG
+  if (hasWritten != count)
+  {
+	  // Something went wrong...
+	  Serial.print("I2C FRAM Write failed, ");
+	  Serial.print(count);
+	  Serial.print(" requested but wrote ");
+	  Serial.println(hasWritten);
+  }
+#endif
+  return hasWritten;
 }
 
 
@@ -148,30 +177,40 @@ uint8_t Adafruit_FRAM_I2C::read8 (uint32_t framAddr)
                 The pointer to an array of 8-bit values to read starting at addr
     @params[in] count
                 The number of bytes to read
+
+    @returns    true if success false if failed
 */
 /**************************************************************************/
-void Adafruit_FRAM_I2C::read (uint32_t framAddr, uint8_t *values, size_t count)
+uint32_t Adafruit_FRAM_I2C::read (uint32_t framAddr, uint8_t *values, uint32_t count)
 {
-  size_t hasRead = 0;
-  size_t toRead = count;
+  uint32_t hasRead = 0;
+  uint32_t toRead = count;
 
-  Wire.beginTransmission(i2c_addr);
-  writeAddress(framAddr);
-  Wire.endTransmission();
-  while (count > 0)
+  // Read in <= 32 byte blocks
+  while (toRead > 0)
   {
-    uint8_t block = (toRead>=32) ? 32 : toRead;
+    uint8_t block = (toRead > MULTIBYTE_BLOCK_RX_LEN) ? MULTIBYTE_BLOCK_RX_LEN : toRead;
     toRead -= block;
-    Wire.requestFrom(i2c_addr, block, true);
-    while (Wire.Available())
+    Wire.beginTransmission(i2c_addr);
+    writeAddress(framAddr+hasRead);
+    Wire.endTransmission();
+    Wire.requestFrom(i2c_addr, block);
+    while (Wire.available())
     {
       values[hasRead++] = Wire.read();
     }
   }
+#ifdef DEV_DBG
   if (hasRead != count)
   {
 	  // Something went wrong...
+	  Serial.print("I2C FRAM Read failed, ");
+	  Serial.print(count);
+	  Serial.print(" requested but got ");
+	  Serial.println(hasRead);
   }
+#endif
+  return hasRead;
 }
 
 /**************************************************************************/
@@ -211,7 +250,7 @@ void Adafruit_FRAM_I2C::getDeviceID(uint16_t *manufacturerID, uint16_t *productI
     @brief  Sets the byte width of the address bus to be used
 
     @params[in] nAddressSize
-                The address byte width: 1,2 or 4 (16bit/24bit/32bit)
+                The address byte width: 2,3 or 4 bytes (16bit/24bit/32bit)
 */
 /**************************************************************************/
 void Adafruit_FRAM_I2C::setAddressSize(uint8_t nAddressSize)

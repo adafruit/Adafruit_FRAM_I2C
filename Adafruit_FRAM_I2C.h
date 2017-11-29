@@ -58,9 +58,9 @@ class Adafruit_FRAM_I2C {
   boolean  begin  (uint8_t addr, uint8_t nAddressSizeBytes);
 
   void     write8 (uint32_t framAddr, uint8_t value);
-  void     write (uint32_t framAddr, const uint8_t *values, size_t count);
+  uint32_t write (uint32_t framAddr, const uint8_t *values, uint32_t count);
   uint8_t  read8  (uint32_t framAddr);
-  void     read (uint32_t framAddr, uint8_t *values, size_t count);
+  uint32_t read (uint32_t framAddr, uint8_t *values, uint32_t count);
   void     getDeviceID(uint16_t *manufacturerID, uint16_t *productID);
   void     setAddressSize(uint8_t nAddressSize);
 
