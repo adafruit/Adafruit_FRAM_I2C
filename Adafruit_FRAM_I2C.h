@@ -44,8 +44,13 @@
 
 #include <Wire.h>
 
+// Memory Slave Device Address
+// [ 7 ][ 6 ][ 5 ][ 4 ][ 3 ][ 2 ][ 1 ][ 0 ]
+//   1    0    1    0    A2   A1  A16  R/W
+
+#define MB85RC_PAGE_BIT               (0x01) /* Page select bit (A16), MSB of 17 bit address */
 #define MB85RC_DEFAULT_ADDRESS        (0x50) /* 1010 + A2 + A1 + A0 = 0x50 default */
-#define MB85RC_SLAVE_ID       (0xF8)
+#define MB85RC_SLAVE_ID               (0xF8)
 
 class Adafruit_FRAM_I2C {
  public:
@@ -58,9 +63,9 @@ class Adafruit_FRAM_I2C {
   boolean  begin  (uint8_t addr, uint8_t nAddressSizeBytes);
 
   void     write8 (uint32_t framAddr, uint8_t value);
-  uint32_t write (uint32_t framAddr, const uint8_t *values, uint32_t count);
+  boolean  write (uint32_t framAddr, const uint8_t *values, uint32_t count);
   uint8_t  read8  (uint32_t framAddr);
-  uint32_t read (uint32_t framAddr, uint8_t *values, uint32_t count);
+  boolean  read (uint32_t framAddr, uint8_t *values, uint32_t count);
   void     getDeviceID(uint16_t *manufacturerID, uint16_t *productID);
   void     setAddressSize(uint8_t nAddressSize);
 
