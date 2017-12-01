@@ -88,7 +88,7 @@ void setup(void) {
   #endif
 
   Serial.begin(115200);
-  addrSizeInBytes = 3;
+  addrSizeInBytes = 2;
 #ifdef USE_I2C
   if (fram.begin(MB85RC_DEFAULT_ADDRESS, addrSizeInBytes)) {
 #else // USE_SPI
@@ -100,7 +100,6 @@ void setup(void) {
     while (1);
   }
 
-/*
   if (testAddrSize(2))
     addrSizeInBytes = 2;
   else if (testAddrSize(3))
@@ -111,7 +110,7 @@ void setup(void) {
     Serial.println("FRAM can not be read/written with any address size\r\n");
     while (1);
   }
-*/  
+  
   memSize = 0;
   while (readBack(memSize, memSize) == memSize) {
     memSize += 256;
@@ -137,7 +136,7 @@ void setup(void) {
 }
 
 void loop(void) {
-  if (0 && writeOffset < memSize)
+  if (writeOffset < memSize)
   {
     int i;
     uint32_t len = 1 + (random()%(BUFFER_SIZE-1));
