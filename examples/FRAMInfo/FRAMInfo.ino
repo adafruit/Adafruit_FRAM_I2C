@@ -3,9 +3,13 @@
 
 /* NOTE: This sketch will overwrite data already on the FRAM breakout */
 
-#define USE_I2C	// Comment this out to use SPI
-#ifndef USE_I2C
+//#define USE_I2C	// Comment this out to use SPI
+
+#ifdef USE_I2C
+#define COM_NAME "I2C" 
+#else
 #define USE_SPI
+#define COM_NAME "SPI" 
 #endif
 
 
@@ -74,13 +78,14 @@ int32_t readBack(uint32_t addr, int32_t data) {
 }
 
 
+#ifdef USE_SPI
 bool testAddrSize(uint8_t addrSize) {
   fram.setAddressSize(addrSize);
   if (readBack(4, 0xbeefbead) == 0xbeefbead)
     return true;
   return false;
 }
-
+#endif
 
 void setup(void) {
   #ifndef ESP8266
@@ -88,29 +93,35 @@ void setup(void) {
   #endif
 
   Serial.begin(115200);
-  addrSizeInBytes = 2;
+  
 #ifdef USE_I2C
-  if (fram.begin(MB85RC_DEFAULT_ADDRESS, addrSizeInBytes)) {
+  if (fram.begin(MB85RC_DEFAULT_ADDRESS)) {
 #else // USE_SPI
   if (fram.begin(FRAM_CS, addrSizeInBytes)) {
 #endif
-    Serial.println("Found FRAM");
+    Serial.print("Found "); Serial.print(COM_NAME); Serial.println(" FRAM");
   } else {
     Serial.println("No FRAM found ... check your connections\r\n");
     while (1);
   }
 
+#ifdef USE_I2C
+  if (readBack(4, 0xABADDEED) == 0xABADDEED) {
+    // Ok then...
+  }	
+#else USE_SPI
   if (testAddrSize(2))
     addrSizeInBytes = 2;
   else if (testAddrSize(3))
     addrSizeInBytes = 3;
   else if (testAddrSize(4))
     addrSizeInBytes = 4;
+#endif
   else {
-    Serial.println("FRAM can not be read/written with any address size\r\n");
+    Serial.println("FRAM can not be read and/or written to\r\n");
     while (1);
   }
-  
+
   memSize = 0;
   while (readBack(memSize, memSize) == memSize) {
     memSize += 256;
@@ -139,7 +150,7 @@ void loop(void) {
   if (writeOffset < memSize)
   {
     int i;
-    uint32_t len = 1 + (random()%(BUFFER_SIZE-1));
+    uint32_t len = 1 + (rand()%(BUFFER_SIZE-1));
     len = (writeOffset+len <= memSize) ? len : memSize-writeOffset;
     Serial.print("Write to address "); Serial.print(writeOffset);
     Serial.print(" with "); Serial.print(len); Serial.print(" bytes.. ");

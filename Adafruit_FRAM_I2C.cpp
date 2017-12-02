@@ -27,7 +27,7 @@
 
 // This is the maximum number of bytes that can be received in one go (UNO)
 #define MULTIBYTE_BLOCK_RX_LEN 32
-// This is the maximum number of bytes that can be sent in one go (UNO)
+// This is the maximum number of data bytes that can be sent in one go (UNO)
 #define MULTIBYTE_BLOCK_TX_LEN 30
 
 /*========================================================================*/
@@ -54,10 +54,9 @@ Adafruit_FRAM_I2C::Adafruit_FRAM_I2C(void)
     doing anything else)
 */
 /**************************************************************************/
-boolean Adafruit_FRAM_I2C::begin(uint8_t addr, uint8_t nAddressSizeBytes)
+boolean Adafruit_FRAM_I2C::begin(uint8_t addr)
 {
   i2c_addr = addr;
-  setAddressSize(nAddressSizeBytes);
 
   Wire.begin();
 
@@ -243,26 +242,8 @@ void Adafruit_FRAM_I2C::getDeviceID(uint16_t *manufacturerID, uint16_t *productI
   *productID = ((a[1] & 0x0F) << 8) + a[2];
 }
 
-/**************************************************************************/
-/*!
-    @brief  Sets the byte width of the address bus to be used
-
-    @params[in] nAddressSize
-                The address byte width: 2,3 or 4 bytes (16bit/24bit/32bit)
-*/
-/**************************************************************************/
-void Adafruit_FRAM_I2C::setAddressSize(uint8_t nAddressSize)
-{
-  _nAddressSizeBytes = nAddressSize;
-}
-
-
 void Adafruit_FRAM_I2C::writeAddress(uint32_t addr)
 {
-  if (_nAddressSizeBytes>3)
-  	Wire.write((uint8_t)(addr >> 24));
-  if (_nAddressSizeBytes>2)
-  	Wire.write((uint8_t)(addr >> 16));
   Wire.write((uint8_t)(addr >> 8));
   Wire.write((uint8_t)(addr & 0xFF));
 }
