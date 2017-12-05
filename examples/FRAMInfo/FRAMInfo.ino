@@ -1,47 +1,15 @@
 
-/* Example code to interrogate Adafruit SPI/I2C FRAM breakout for address size and storage capacity */
+/* Example code to interrogate Adafruit I2C FRAM breakout for storage capacity and do a full write/read test */
 
 /* NOTE: This sketch will overwrite data already on the FRAM breakout */
 
-//#define USE_I2C	// Comment this out to use SPI
-
-#ifdef USE_I2C
-#define COM_NAME "I2C" 
-#else
-#define USE_SPI
-#define COM_NAME "SPI" 
-#endif
-
-
-#ifdef USE_I2C
 #include "Adafruit_FRAM_I2C.h"
 /* Example code for the Adafruit I2C FRAM breakout */
-
 /* Connect SCL    to analog 5
    Connect SDA    to analog 4
    Connect VDD    to 5.0V DC
    Connect GROUND to common ground */
-   
 Adafruit_FRAM_I2C fram = Adafruit_FRAM_I2C();
-uint16_t          framAddr = 0;
-#define writeEnable(B)
-
-#else // USE_SPI
-
-#include <SPI.h>
-#include "Adafruit_FRAM_SPI.h"
-/* Example code for the Adafruit SPI FRAM breakout */
-
-uint8_t FRAM_CS = 10;
-Adafruit_FRAM_SPI fram = Adafruit_FRAM_SPI();  // use hardware SPI
-uint8_t FRAM_SCK = 13;
-uint8_t FRAM_MISO = 12;
-uint8_t FRAM_MOSI = 11;
-//Or use software SPI, any pins!
-//Adafruit_FRAM_SPI fram = Adafruit_FRAM_SPI(FRAM_SCK, FRAM_MISO, FRAM_MOSI, FRAM_CS);
-#define writeEnable(B) fram.writeEnable(B);
-
-#endif
 
 #if defined(ARDUINO_ARCH_SAMD)
 // for Zero, output on USB Serial console, remove line below if using programming port to program the Zero!
@@ -49,8 +17,7 @@ uint8_t FRAM_MOSI = 11;
 #endif
 
 
-bool DEBUG_DATA = false;
-uint8_t  addrSizeInBytes = 2; //Default to address size of two bytes
+bool DEBUG_DATA = false; // Make this true if you want to see all the data
 uint32_t memSize;
 #define BUFFER_SIZE 256
 uint32_t writeOffset = 0;
@@ -63,60 +30,33 @@ int32_t readBack(uint32_t addr, int32_t data) {
   int32_t check = !data;
   int32_t wrapCheck, backup;
   fram.read(addr, (uint8_t*)&backup, sizeof(int32_t));
-  writeEnable(true);
   fram.write(addr, (uint8_t*)&data, sizeof(int32_t));
-  writeEnable(false);
   fram.read(addr, (uint8_t*)&check, sizeof(int32_t));
   fram.read(0, (uint8_t*)&wrapCheck, sizeof(int32_t));
-  writeEnable(true);
   fram.write(addr, (uint8_t*)&backup, sizeof(int32_t));
-  writeEnable(false);
   // Check for warparound, address 0 will work anyway
   if (wrapCheck==check)
     check = 0;
   return check;
 }
 
-
-#ifdef USE_SPI
-bool testAddrSize(uint8_t addrSize) {
-  fram.setAddressSize(addrSize);
-  if (readBack(4, 0xbeefbead) == 0xbeefbead)
-    return true;
-  return false;
-}
-#endif
-
 void setup(void) {
   #ifndef ESP8266
     while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
   #endif
 
-  Serial.begin(115200);
+  Serial.begin(9600);
   
-#ifdef USE_I2C
   if (fram.begin(MB85RC_DEFAULT_ADDRESS)) {
-#else // USE_SPI
-  if (fram.begin(FRAM_CS, addrSizeInBytes)) {
-#endif
-    Serial.print("Found "); Serial.print(COM_NAME); Serial.println(" FRAM");
+    Serial.println("Found I2C FRAM");
   } else {
     Serial.println("No FRAM found ... check your connections\r\n");
     while (1);
   }
 
-#ifdef USE_I2C
   if (readBack(4, 0xABADDEED) == 0xABADDEED) {
-    // Ok then...
+    // Ok we can readback then...
   }	
-#else USE_SPI
-  if (testAddrSize(2))
-    addrSizeInBytes = 2;
-  else if (testAddrSize(3))
-    addrSizeInBytes = 3;
-  else if (testAddrSize(4))
-    addrSizeInBytes = 4;
-#endif
   else {
     Serial.println("FRAM can not be read and/or written to\r\n");
     while (1);
@@ -128,9 +68,6 @@ void setup(void) {
     //Serial.print("Block: #"); Serial.println(memSize/256);
   }
   
-  Serial.print("FRAM address size is ");
-  Serial.print(addrSizeInBytes);
-  Serial.println(" bytes.");
   Serial.println("FRAM capacity appears to be..");
   Serial.print(memSize); Serial.println(" bytes");
   Serial.print(memSize/0x400); Serial.println(" kilobytes");
@@ -143,7 +80,7 @@ void setup(void) {
     writeBuffer[i] = i;
 
   // Random seed, if A1 is not connected. 
-  randomSeed(analogRead(A1)); 
+  // randomSeed(analogRead(A1)); 
 }
 
 void loop(void) {
@@ -154,9 +91,7 @@ void loop(void) {
     len = (writeOffset+len <= memSize) ? len : memSize-writeOffset;
     Serial.print("Write to address "); Serial.print(writeOffset);
     Serial.print(" with "); Serial.print(len); Serial.print(" bytes.. ");
-    writeEnable(true);
     fram.write(writeOffset, (uint8_t*)writeBuffer, len);
-    writeEnable(false);
     // Mark the read buffer with something we will recognise
     for (i=0; i<BUFFER_SIZE; i++)
       readBuffer[i] = 0xcd;

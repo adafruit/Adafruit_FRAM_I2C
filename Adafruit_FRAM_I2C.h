@@ -58,9 +58,9 @@ class Adafruit_FRAM_I2C {
 
   boolean  begin (uint8_t addr = MB85RC_DEFAULT_ADDRESS);
   void     write8 (uint32_t framAddr, uint8_t value);
-  boolean  write (uint32_t framAddr, const uint8_t *values, uint32_t count);
+  void     write (uint32_t framAddr, const uint8_t *values, uint32_t count);
   uint8_t  read8  (uint32_t framAddr);
-  boolean  read (uint32_t framAddr, uint8_t *values, uint32_t count);
+  void     read (uint32_t framAddr, uint8_t *values, uint32_t count);
   void     getDeviceID(uint16_t *manufacturerID, uint16_t *productID);
  private:
   void     writeAddress(uint32_t addr);

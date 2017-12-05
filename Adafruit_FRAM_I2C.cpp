@@ -25,9 +25,9 @@
 // DEV_DBG: Do not check in with this defined.
 //#define DEV_DBG
 
-// This is the maximum number of bytes that can be received in one go (UNO)
+// This is the maximum number of bytes that can be received in one go (Arduino API)
 #define MULTIBYTE_BLOCK_RX_LEN 32
-// This is the maximum number of data bytes that can be sent in one go (UNO)
+// This is the maximum number of data bytes that can be sent in one go (Arduino API)
 #define MULTIBYTE_BLOCK_TX_LEN 30
 
 /*========================================================================*/
@@ -39,7 +39,7 @@
     Constructor
 */
 /**************************************************************************/
-Adafruit_FRAM_I2C::Adafruit_FRAM_I2C(void)
+Adafruit_FRAM_I2C::Adafruit_FRAM_I2C()
 {
   _framInitialised = false;
 }
@@ -63,22 +63,22 @@ boolean Adafruit_FRAM_I2C::begin(uint8_t addr)
   /* Make sure we're actually connected */
   uint16_t manufID, prodID;
   getDeviceID(&manufID, &prodID);
-/*
-  if (manufID != 0x00A && manufID != 0x7f)
+
+  /* PRH: The 1mbit (Cypress-FM24V10) FRAM these changes were tested with uses 04:400 for manufID:prodID */
+  if (manufID != 0x00A && manufID != 0x04)
   {
 #ifdef DEV_DBG
     Serial.print("Unexpected Manufacturer ID: 0x"); Serial.println(manufID, HEX);
 #endif
     return false;
   }
-  if (prodID != 0x510 && prodID != 0x7f7f)
+  if (prodID != 0x510 && prodID != 0x400)
   {
 #ifdef DEV_DBG
     Serial.print("Unexpected Product ID: 0x"); Serial.println(prodID, HEX);
 #endif
     return false;
   }
-*/
   /* Everything seems to be properly initialised and connected */
   _framInitialised = true;
 
@@ -110,11 +110,9 @@ void Adafruit_FRAM_I2C::write8 (uint32_t framAddr, uint8_t value)
                 The pointer to an array of 8-bit values to write starting at addr
     @params[in] count
                 The number of bytes to write
-
-    @returns    true if success false if failed
 */
 /**************************************************************************/
-boolean Adafruit_FRAM_I2C::write (uint32_t framAddr, const uint8_t *values, uint32_t count)
+void Adafruit_FRAM_I2C::write (uint32_t framAddr, const uint8_t *values, uint32_t count)
 {
   uint32_t hasWritten = 0;
   uint32_t toWrite = count;
@@ -124,7 +122,7 @@ boolean Adafruit_FRAM_I2C::write (uint32_t framAddr, const uint8_t *values, uint
 	uint32_t addr = framAddr+hasWritten;
 	uint8_t pageBit = (addr & 0x10000) ? MB85RC_PAGE_BIT : 0;
     Wire.beginTransmission(i2c_addr | pageBit);
-    writeAddress((uint16_t)addr);
+    writeAddress(addr);
     uint8_t block = (toWrite > MULTIBYTE_BLOCK_TX_LEN) ? MULTIBYTE_BLOCK_TX_LEN : toWrite;
     uint8_t done = Wire.write(&values[hasWritten], block);
     toWrite -= done;
@@ -141,7 +139,6 @@ boolean Adafruit_FRAM_I2C::write (uint32_t framAddr, const uint8_t *values, uint
 	  Serial.println(hasWritten);
   }
 #endif
-  return (hasWritten==count);
 }
 
 
@@ -172,11 +169,9 @@ uint8_t Adafruit_FRAM_I2C::read8 (uint32_t framAddr)
                 The pointer to an array of 8-bit values to read starting at addr
     @params[in] count
                 The number of bytes to read
-
-    @returns    true if success false if failed
 */
 /**************************************************************************/
-boolean Adafruit_FRAM_I2C::read (uint32_t framAddr, uint8_t *values, uint32_t count)
+void Adafruit_FRAM_I2C::read (uint32_t framAddr, uint8_t *values, uint32_t count)
 {
   uint32_t hasRead = 0;
   uint32_t toRead = count;
@@ -188,7 +183,7 @@ boolean Adafruit_FRAM_I2C::read (uint32_t framAddr, uint8_t *values, uint32_t co
 	uint8_t pageBit = (addr & 0x10000) ? MB85RC_PAGE_BIT : 0;
     uint8_t block = (toRead > MULTIBYTE_BLOCK_RX_LEN) ? MULTIBYTE_BLOCK_RX_LEN : toRead;
     Wire.beginTransmission(i2c_addr | pageBit);
-    writeAddress((uint16_t)addr);
+    writeAddress(addr);
     Wire.endTransmission();
     Wire.requestFrom(i2c_addr, block);
     while (Wire.available())
@@ -207,7 +202,6 @@ boolean Adafruit_FRAM_I2C::read (uint32_t framAddr, uint8_t *values, uint32_t co
 	  Serial.println(hasRead);
   }
 #endif
-  return (hasRead==count);
 }
 
 /**************************************************************************/
