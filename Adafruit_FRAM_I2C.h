@@ -56,9 +56,35 @@ class Adafruit_FRAM_I2C {
   uint8_t  read8  (uint16_t framAddr);
   void     getDeviceID(uint16_t *manufacturerID, uint16_t *productID);
 
+
+  //Additions to facilitate read/write of arbitrary data types
+  //G. Frank Paynter, April 2018
+  // Original I2C_Anything.h written by Nick Gammon, May 2012
+  template <typename T> unsigned int FRAM_I2C_writeAnything(uint16_t framAddr, const T& value)
+  {
+	  const byte *p = (const byte*)&value;
+	  unsigned int i;
+	  for (i = 0; i < sizeof value; i++)
+	  {
+		  write8(framAddr++, *p++);
+	  }
+	  return i;
+  }  // end of I2C_writeAnything
+
+  template <typename T> unsigned int FRAM_I2C_readAnything(uint16_t framAddr, T& value)
+  {
+	  byte * p = (byte*)&value;
+	  unsigned int i;
+	  for (i = 0; i < sizeof value; i++)
+		  *p++ = read8(framAddr++);
+	  return i;
+  }  // end of I2C_readAnything
+
+
  private:
   uint8_t i2c_addr;
   boolean _framInitialised;
+
 };
 
 #endif
