@@ -9,7 +9,6 @@
    Connect GROUND to common ground */
    
 Adafruit_FRAM_I2C fram     = Adafruit_FRAM_I2C();
-uint16_t          framAddr = 0;
 
 void setup(void) {
   Serial.begin(9600);
