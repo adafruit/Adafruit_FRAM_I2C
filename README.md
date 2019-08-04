@@ -1,4 +1,4 @@
-#Adafruit I2C FRAM Driver #
+# Adafruit I2C FRAM Driver
 
 This driver is for the Adafruit I2C FRAM breakout.
     ------> http://www.adafruit.com/products/1895
