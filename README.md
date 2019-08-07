@@ -1,7 +1,8 @@
-# Adafruit I2C FRAM Driver
+# Adafruit I2C FRAM Driver [![Build Status](https://travis-ci.com/adafruit/Adafruit_FRAM_I2C.svg?branch=master)](https://travis-ci.com/adafruit/Adafruit_FRAM_I2C)
 
-This driver is for the Adafruit I2C FRAM breakout.
-    ------> http://www.adafruit.com/products/1895
+This is a library for our Adafruit I2C FRAM breakout.
+
+<a href="https://www.adafruit.com/products/1895"><img src="assets/image.jpg" height="300"/></a>
 
 ## About this Driver ##
 
