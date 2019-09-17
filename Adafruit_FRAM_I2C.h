@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*! 
+/*!
     @file     Adafruit_FRAM_I2C.h
     @author   KTOWN (Adafruit Industries)
 
@@ -44,19 +44,27 @@
 
 #include <Wire.h>
 
+// Memory Slave Device Address
+// [ 7 ][ 6 ][ 5 ][ 4 ][ 3 ][ 2 ][ 1 ][ 0 ]
+//   1    0    1    0    A2   A1  A16  R/W
+
+#define MB85RC_PAGE_BIT               (0x01) /* Page select bit (A16), MSB of 17 bit address */
 #define MB85RC_DEFAULT_ADDRESS        (0x50) /* 1010 + A2 + A1 + A0 = 0x50 default */
-#define MB85RC_SLAVE_ID       (0xF8)
+#define MB85RC_SLAVE_ID               (0xF8)
 
 class Adafruit_FRAM_I2C {
  public:
   Adafruit_FRAM_I2C(void);
-  
-  boolean  begin(uint8_t addr = MB85RC_DEFAULT_ADDRESS);
-  void     write8 (uint16_t framAddr, uint8_t value);
-  uint8_t  read8  (uint16_t framAddr);
-  void     getDeviceID(uint16_t *manufacturerID, uint16_t *productID);
 
+  boolean  begin (uint8_t addr = MB85RC_DEFAULT_ADDRESS);
+  void     write8 (uint32_t framAddr, uint8_t value);
+  void     write (uint32_t framAddr, const uint8_t *values, uint32_t count);
+  uint8_t  read8  (uint32_t framAddr);
+  void     read (uint32_t framAddr, uint8_t *values, uint32_t count);
+  void     getDeviceID(uint16_t *manufacturerID, uint16_t *productID);
  private:
+  void     writeAddress(uint32_t addr);
+
   uint8_t i2c_addr;
   boolean _framInitialised;
 };
