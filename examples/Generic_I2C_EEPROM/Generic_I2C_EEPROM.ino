@@ -28,9 +28,9 @@ void setup(void) {
   // Test write ++
   i2ceeprom.write8(0x0, test+1);
   
-  // dump the entire 32K of memory!
+  // dump the first 256 bytes of memory
   uint8_t val;
-  for (uint16_t addr = 0; addr < 32768; addr++) {
+  for (uint16_t addr = 0; addr < 256; addr++) {
     val = i2ceeprom.read8(addr);
     if ((addr % 32) == 0) {
       Serial.print("\n 0x"); Serial.print(addr, HEX); Serial.print(": ");
