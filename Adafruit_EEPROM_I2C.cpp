@@ -15,8 +15,8 @@
     v1.0 - First release
 */
 /**************************************************************************/
-#include <stdlib.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include "Adafruit_EEPROM_I2C.h"
 
@@ -29,9 +29,7 @@
     Constructor
 */
 /**************************************************************************/
-Adafruit_EEPROM_I2C::Adafruit_EEPROM_I2C(void) 
-{
-}
+Adafruit_EEPROM_I2C::Adafruit_EEPROM_I2C(void) {}
 
 /*========================================================================*/
 /*                           PUBLIC FUNCTIONS                             */
@@ -43,8 +41,7 @@ Adafruit_EEPROM_I2C::Adafruit_EEPROM_I2C(void)
     doing anything else)
 */
 /**************************************************************************/
-bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) 
-{
+bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) {
   i2c_addr = addr;
   _wire = theWire;
 
@@ -52,7 +49,7 @@ bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire)
 
   // A basic scanner, see if it ACK's
   _wire->beginTransmission(i2c_addr);
-  if (_wire->endTransmission () == 0) {
+  if (_wire->endTransmission() == 0) {
     return true;
   }
 
@@ -62,15 +59,14 @@ bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire)
 /**************************************************************************/
 /*!
     @brief  Writes a byte at the specific EEPROM address
-    
+
     @params[in] addr
                 The 16-bit address to write to in EEPROM memory
     @params[in] i2cAddr
                 The 8-bit value to write at addr
 */
 /**************************************************************************/
-void Adafruit_EEPROM_I2C::write8 (uint16_t addr, uint8_t value)
-{
+void Adafruit_EEPROM_I2C::write8(uint16_t addr, uint8_t value) {
   _wire->beginTransmission(i2c_addr);
   _wire->write(addr >> 8);
   _wire->write(addr & 0xFF);
@@ -80,24 +76,22 @@ void Adafruit_EEPROM_I2C::write8 (uint16_t addr, uint8_t value)
   // Wait until it acks!
   while (1) {
     _wire->beginTransmission(i2c_addr);
-    if (_wire->endTransmission () == 0) {
+    if (_wire->endTransmission() == 0) {
       return;
     }
     delay(1);
   }
-
 }
 
 /**************************************************************************/
 /*!
     @brief  Reads an 8 bit value from the specified EEPROM address
-    @params[in] addr
+    @param addr
                 The 16-bit address to read from in EEPROM memory
     @returns    The 8-bit value retrieved at addr
 */
 /**************************************************************************/
-uint8_t Adafruit_EEPROM_I2C::read8 (uint16_t addr)
-{
+uint8_t Adafruit_EEPROM_I2C::read8(uint16_t addr) {
   _wire->beginTransmission(i2c_addr);
   _wire->write(addr >> 8);
   _wire->write(addr & 0xFF);
