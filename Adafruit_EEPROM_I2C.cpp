@@ -1,20 +1,20 @@
 /**************************************************************************/
 /*!
-    @file     Adafruit_EEPROM_I2C.cpp
-    @author   KTOWN (Adafruit Industries)
-
-    Driver for the Adafruit I2C EEPROM breakout.
-
-    Adafruit invests time and resources providing this open source code,
-    please support Adafruit and open-source hardware by purchasing
-    products from Adafruit!
+ * @file     Adafruit_EEPROM_I2C.cpp
+ * @author   KTOWN (Adafruit Industries)
+ *
+ * Driver for the Adafruit I2C EEPROM breakout.
+ *
+ * Adafruit invests time and resources providing this open source code,
+ * please support Adafruit and open-source hardware by purchasing
+ * products from Adafruit!
  *
  * 	Adafruit invests time and resources providing this open source code,
  *  please support Adafruit and open-source hardware by purchasing products from
  * 	Adafruit!
  *
  *	BSD license (see license.txt)
-*/
+ */
 /**************************************************************************/
 #include <math.h>
 #include <stdlib.h>
