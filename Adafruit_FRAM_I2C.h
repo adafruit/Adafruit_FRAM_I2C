@@ -16,22 +16,14 @@
  *	BSD license (see license.txt)
 */
 /**************************************************************************/
-/// @cond DISABLE
 #ifndef _ADAFRUIT_FRAM_I2C_H_
-/// @endcond
 #define _ADAFRUIT_FRAM_I2C_H_
 
-/// @cond DISABLE
 #if ARDUINO >= 100
-/// @endcond
 #include <Arduino.h>
-/// @cond DISABLE
 #else
-/// @endcond
 #include <WProgram.h>
-/// @cond DISABLE
 #endif
-/// @endcond
 
 #include <Wire.h>
 
@@ -57,6 +49,4 @@ private:
   boolean _framInitialised;
 };
 
-/// @cond DISABLE
 #endif
-/// @endcond
