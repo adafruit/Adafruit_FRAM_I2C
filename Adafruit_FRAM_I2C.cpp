@@ -1,25 +1,27 @@
-/**************************************************************************/
 /*!
-    @file     Adafruit_FRAM_I2C.cpp
-    @author   KTOWN (Adafruit Industries)
-
-    Driver for the Adafruit I2C FRAM breakout.
-
-    Adafruit invests time and resources providing this open source code,
-    please support Adafruit and open-source hardware by purchasing
-    products from Adafruit!
-
-    @section  HISTORY
-
-    v1.0 - First release
-
- *  @section license License
+ * @file     Adafruit_FRAM_I2C.cpp
  *
- *  BSD license, all text above must be included in any redistribution (see
+ * @mainpage Adafruit FRAM I2C
+ *
+ * @author   KTOWN (Adafruit Industries)
+ *
+ * @section intro_sec Introduction
+ *
+ * Driver for the Adafruit I2C FRAM breakout.
+ *
+ * Adafruit invests time and resources providing this open source code,
+ * please support Adafruit and open-source hardware by purchasing
+ * products from Adafruit!
+ *
+ * @section  HISTORY
+ *
+ * v1.0 - First release
+ *
+ * @section license License
+ *
+ * BSD license, all text above must be included in any redistribution (see
  license.txt)
-
-*/
-/**************************************************************************/
+ */
 #include <math.h>
 #include <stdlib.h>
 

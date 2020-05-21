@@ -1,15 +1,6 @@
 /**************************************************************************/
 /*!
-    @file     Adafruit_EEPROM_I2C.h
-    @author   KTOWN (Adafruit Industries)
-
- *
- * 	Adafruit invests time and resources providing this open source code,
- *  please support Adafruit and open-source hardware by purchasing products from
- * 	Adafruit!
- *
- *
- *	BSD license (see license.txt)
+ * @file Adafruit_EEPROM_I2C.h
  */
 /**************************************************************************/
 #ifndef _ADAFRUIT_EEPROM_I2C_H_
