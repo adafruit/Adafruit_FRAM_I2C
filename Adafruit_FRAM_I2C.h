@@ -44,6 +44,28 @@ public:
   uint8_t read8(uint16_t framAddr);
   void getDeviceID(uint16_t *manufacturerID, uint16_t *productID);
 
+  //write anything to FRAM
+  template <class T> uint16_t writeAnything(uint16_t ee, const T& value)
+  {
+    const byte* p = (const byte*)(const void*)&value;
+    unsigned int i;
+    for (i = 0; i < sizeof(value); i++) {
+      Adafruit_FRAM_I2C::write8(ee++, *p++);
+    }
+    return i;
+  }
+
+  //read anything from FRAM
+  template <class T> uint16_t readAnything(uint16_t ee, T& value)
+  {
+    byte* p = (byte*)(void*)&value;
+    unsigned int i;
+    for (i = 0; i < sizeof(value); i++) {
+      *p++ = Adafruit_FRAM_I2C::read8(ee++);	
+    } 
+    return i;
+  }
+
 private:
   uint8_t i2c_addr;
   boolean _framInitialised;
