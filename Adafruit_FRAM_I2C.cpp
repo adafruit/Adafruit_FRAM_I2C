@@ -93,7 +93,7 @@ bool Adafruit_FRAM_I2C::begin(uint8_t addr, TwoWire *theWire) {
 /**************************************************************************/
 void Adafruit_FRAM_I2C::getDeviceID(uint16_t *manufacturerID,
                                     uint16_t *productID) {
-  uint8_t buff[3] = {_addr * 2, 0, 0};
+  uint8_t buff[3] = {(uint8_t)(_addr * 2), 0, 0};
 
   i2c_dev2->write_then_read(buff, 1, buff, 3, false);
   /* Shift values to separate manuf and prod IDs */
