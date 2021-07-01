@@ -24,6 +24,43 @@ public:
   bool write(uint16_t addr, uint8_t value);
   uint8_t read(uint16_t addr);
 
+  /**************************************************************************/
+  /*!
+      @brief  Write any object to memory
+      @param addr
+                  The 16-bit address to write to in EEPROM memory
+      @param value  The templated object we will be writing
+      @returns    The number of bytes written
+  */
+  /**************************************************************************/
+  template <class T> uint16_t writeObject(uint16_t addr, const T &value) {
+    const byte *p = (const byte *)(const void *)&value;
+    uint16_t n;
+    for (n = 0; n < sizeof(value); n++) {
+      write(addr++, *p++);
+    }
+    return n;
+  }
+
+  /**************************************************************************/
+  /*!
+      @brief Read any object from memory
+      @param addr
+                  The 16-bit address to write to in EEPROM memory
+      @param value  The address of the templated object we will be writing INTO
+      @returns    The number of bytes read
+  */
+  /**************************************************************************/
+
+  template <class T> uint16_t readObject(uint16_t addr, T &value) {
+    byte *p = (byte *)(void *)&value;
+    uint16_t n;
+    for (n = 0; n < sizeof(value); n++) {
+      *p++ = read(addr++);
+    }
+    return n;
+  }
+
 private:
   Adafruit_I2CDevice *i2c_dev = NULL;
 };
