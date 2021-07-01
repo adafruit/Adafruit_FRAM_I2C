@@ -46,11 +46,18 @@ Adafruit_FRAM_I2C::Adafruit_FRAM_I2C(void) { _framInitialised = false; }
  *    @brief  Sets up the hardware and initializes I2C
  *    @param  addr
  *            The I2C address to be used.
+ *    @param  theWire
+ *            The Wire object to be used for I2C connections.
  *    @return True if initialization was successful, otherwise false.
  */
-bool Adafruit_FRAM_I2C::begin(uint8_t addr) {
-  i2c_addr = addr;
-  Wire.begin();
+bool Adafruit_FRAM_I2C::begin(uint8_t addr, TwoWire *theWire) {
+  Adafruit_EEPROM_I2C::begin(addr, theWire);
+
+  // the MB85 has a secondary address too!
+  i2c_dev2 = new Adafruit_I2CDevice(MB85RC_SECONDARY_ADDRESS, theWire);
+  if (!i2c_dev2->begin()) {
+    return false;
+  }
 
   /* Make sure we're actually connected */
   uint16_t manufID, prodID;
@@ -74,45 +81,6 @@ bool Adafruit_FRAM_I2C::begin(uint8_t addr) {
 
 /**************************************************************************/
 /*!
-    @brief  Writes a byte at the specific FRAM address
-
-    @param[in] framAddr
-                The 16-bit address to write to in FRAM memory
-    @param[in] value
-                The 8-bit value to write at framAddr
-*/
-/**************************************************************************/
-void Adafruit_FRAM_I2C::write8(uint16_t framAddr, uint8_t value) {
-  Wire.beginTransmission(i2c_addr);
-  Wire.write(framAddr >> 8);
-  Wire.write(framAddr & 0xFF);
-  Wire.write(value);
-  Wire.endTransmission();
-}
-
-/**************************************************************************/
-/*!
-    @brief  Reads an 8 bit value from the specified FRAM address
-
-    @param[in] framAddr
-                The 16-bit address to read from in FRAM memory
-
-    @returns    The 8-bit value retrieved at framAddr
-*/
-/**************************************************************************/
-uint8_t Adafruit_FRAM_I2C::read8(uint16_t framAddr) {
-  Wire.beginTransmission(i2c_addr);
-  Wire.write(framAddr >> 8);
-  Wire.write(framAddr & 0xFF);
-  Wire.endTransmission();
-
-  Wire.requestFrom(i2c_addr, (uint8_t)1);
-
-  return Wire.read();
-}
-
-/**************************************************************************/
-/*!
     @brief  Reads the Manufacturer ID and the Product ID frm the IC
 
     @param[out]  manufacturerID
@@ -125,22 +93,13 @@ uint8_t Adafruit_FRAM_I2C::read8(uint16_t framAddr) {
 /**************************************************************************/
 void Adafruit_FRAM_I2C::getDeviceID(uint16_t *manufacturerID,
                                     uint16_t *productID) {
-  uint8_t a[3] = {0, 0, 0};
-  uint8_t results;
+  uint8_t buff[3] = {(uint8_t)(_addr * 2), 0, 0};
 
-  Wire.beginTransmission(MB85RC_SLAVE_ID >> 1);
-  Wire.write(i2c_addr << 1);
-  results = Wire.endTransmission(false);
-
-  Wire.requestFrom(MB85RC_SLAVE_ID >> 1, 3);
-  a[0] = Wire.read();
-  a[1] = Wire.read();
-  a[2] = Wire.read();
-
+  i2c_dev2->write_then_read(buff, 1, buff, 3, false);
   /* Shift values to separate manuf and prod IDs */
   /* See p.10 of
    * http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RC256V-DS501-00017-3v0-E.pdf
    */
-  *manufacturerID = (a[0] << 4) + (a[1] >> 4);
-  *productID = ((a[1] & 0x0F) << 8) + a[2];
+  *manufacturerID = (buff[0] << 4) + (buff[1] >> 4);
+  *productID = ((buff[1] & 0x0F) << 8) + buff[2];
 }
