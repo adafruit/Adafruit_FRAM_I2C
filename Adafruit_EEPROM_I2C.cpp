@@ -49,13 +49,13 @@ bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) {
 bool Adafruit_EEPROM_I2C::write(uint16_t addr, uint8_t value) {
   uint8_t buff[3] = {addr >> 8, addr & 0xFF, value};
 
-  if (! i2c_dev->write(buff, 3) ) 
+  if (!i2c_dev->write(buff, 3))
     return false;
 
   // Wait until it acks!
   uint8_t timeout = 100;
   while (timeout--) {
-    if (i2c_dev->detected()) 
+    if (i2c_dev->detected())
       return true;
     delay(1);
   }
@@ -75,7 +75,7 @@ bool Adafruit_EEPROM_I2C::write(uint16_t addr, uint8_t value) {
 uint8_t Adafruit_EEPROM_I2C::read(uint16_t addr) {
   uint8_t buff[2] = {addr >> 8, addr & 0xFF};
 
-  if (! i2c_dev->write_then_read(buff, 2, buff, 1) ) 
+  if (!i2c_dev->write_then_read(buff, 2, buff, 1))
     return 0x0;
 
   return buff[0];

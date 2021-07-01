@@ -19,8 +19,8 @@
 #ifndef _ADAFRUIT_FRAM_I2C_H_
 #define _ADAFRUIT_FRAM_I2C_H_
 
-#include <Arduino.h>
 #include <Adafruit_I2CDevice.h>
+#include <Arduino.h>
 
 #define MB85RC_DEFAULT_ADDRESS                                                 \
   (0x50)                       ///<* 1010 + A2 + A1 + A0 = 0x50 default */
