@@ -78,12 +78,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1f1416c1447372e31b6b117b4693bca3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a1f1416c1447372e31b6b117b4693bca3">begin</a> (uint8_t addr=<a class="el" href="_adafruit___e_e_p_r_o_m___i2_c_8h.html#a7c629e3be4b8371e5c66f2e7e0106a62">EEPROM_DEFAULT_ADDRESS</a>, TwoWire *theWire=&amp;Wire)</td></tr>
 <tr class="memdesc:a1f1416c1447372e31b6b117b4693bca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the hardware and initializes I2C.  <a href="#a1f1416c1447372e31b6b117b4693bca3">More...</a><br /></td></tr>
 <tr class="separator:a1f1416c1447372e31b6b117b4693bca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2cd5aa1f02187079bc8ba98174eba95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#ac2cd5aa1f02187079bc8ba98174eba95">write8</a> (uint16_t addr, uint8_t value)</td></tr>
-<tr class="memdesc:ac2cd5aa1f02187079bc8ba98174eba95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a byte at the specific EEPROM address.  <a href="#ac2cd5aa1f02187079bc8ba98174eba95">More...</a><br /></td></tr>
-<tr class="separator:ac2cd5aa1f02187079bc8ba98174eba95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12a739a894aad4a443705caa025cd204"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a12a739a894aad4a443705caa025cd204">read8</a> (uint16_t addr)</td></tr>
-<tr class="memdesc:a12a739a894aad4a443705caa025cd204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an 8 bit value from the specified EEPROM address.  <a href="#a12a739a894aad4a443705caa025cd204">More...</a><br /></td></tr>
-<tr class="separator:a12a739a894aad4a443705caa025cd204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a6754e36fa9b511f597a9827b4b11db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a0a6754e36fa9b511f597a9827b4b11db">write</a> (uint16_t addr, uint8_t value)</td></tr>
+<tr class="memdesc:a0a6754e36fa9b511f597a9827b4b11db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a byte at the specific EEPROM address.  <a href="#a0a6754e36fa9b511f597a9827b4b11db">More...</a><br /></td></tr>
+<tr class="separator:a0a6754e36fa9b511f597a9827b4b11db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30d1b155898db481b91fd482065aacbb"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a30d1b155898db481b91fd482065aacbb">read</a> (uint16_t addr)</td></tr>
+<tr class="memdesc:a30d1b155898db481b91fd482065aacbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an 8 bit value from the specified EEPROM address.  <a href="#a30d1b155898db481b91fd482065aacbb">More...</a><br /></td></tr>
+<tr class="separator:a30d1b155898db481b91fd482065aacbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class that stores state and functions for interacting with I2C EEPROM chips. </p>
@@ -146,14 +146,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac2cd5aa1f02187079bc8ba98174eba95"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2cd5aa1f02187079bc8ba98174eba95">&#9670;&nbsp;</a></span>write8()</h2>
+<a id="a0a6754e36fa9b511f597a9827b4b11db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a6754e36fa9b511f597a9827b4b11db">&#9670;&nbsp;</a></span>write()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Adafruit_EEPROM_I2C::write8 </td>
+          <td class="memname">bool Adafruit_EEPROM_I2C::write </td>
           <td>(</td>
           <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>addr</em>, </td>
@@ -180,17 +180,18 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>True on I2C command success, false on timeout or I2C failure </dd></dl>
 
 </div>
 </div>
-<a id="a12a739a894aad4a443705caa025cd204"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12a739a894aad4a443705caa025cd204">&#9670;&nbsp;</a></span>read8()</h2>
+<a id="a30d1b155898db481b91fd482065aacbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30d1b155898db481b91fd482065aacbb">&#9670;&nbsp;</a></span>read()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t Adafruit_EEPROM_I2C::read8 </td>
+          <td class="memname">uint8_t Adafruit_EEPROM_I2C::read </td>
           <td>(</td>
           <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>addr</em></td><td>)</td>
