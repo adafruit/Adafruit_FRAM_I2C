@@ -6,31 +6,29 @@
 #ifndef _ADAFRUIT_EEPROM_I2C_H_
 #define _ADAFRUIT_EEPROM_I2C_H_
 
-#if ARDUINO >= 100
 #include <Arduino.h>
-#else
-#include <WProgram.h>
-#endif
+#include <Adafruit_I2CDevice.h>
 
-#include <Wire.h>
+///<* 1010 + A2 + A1 + A0 = 0x50 default */
+#define EEPROM_DEFAULT_ADDRESS     (0x50)
 
-#define EEPROM_DEFAULT_ADDRESS                                                 \
-  (0x50) ///<* 1010 + A2 + A1 + A0 = 0x50 default */
 /*!
  *    @brief  Class that stores state and functions for interacting with
  *            I2C EEPROM chips
  */
 class Adafruit_EEPROM_I2C {
-public:
+ public:
   Adafruit_EEPROM_I2C(void);
 
   bool begin(uint8_t addr = EEPROM_DEFAULT_ADDRESS, TwoWire *theWire = &Wire);
-  void write8(uint16_t addr, uint8_t value);
-  uint8_t read8(uint16_t addr);
+  bool write(uint16_t addr, uint8_t value);
+  uint8_t read(uint16_t addr);
 
-private:
-  uint8_t i2c_addr;
-  TwoWire *_wire;
+  bool write(uint16_t addr, uint8_t *buffer);
+  bool read(uint16_t addr, uint8_t *buffer);
+
+ private:
+  Adafruit_I2CDevice *i2c_dev = NULL;
 };
 
 #endif

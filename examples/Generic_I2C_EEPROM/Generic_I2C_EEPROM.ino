@@ -23,15 +23,15 @@ void setup(void) {
   }
   
   // Read the first byte
-  uint8_t test = i2ceeprom.read8(0x0);
+  uint8_t test = i2ceeprom.read(0x0);
   Serial.print("Restarted "); Serial.print(test); Serial.println(" times");
   // Test write ++
-  i2ceeprom.write8(0x0, test+1);
+  i2ceeprom.write(0x0, test+1);
   
   // dump the first 256 bytes of memory
   uint8_t val;
   for (uint16_t addr = 0; addr < 256; addr++) {
-    val = i2ceeprom.read8(addr);
+    val = i2ceeprom.read(addr);
     if ((addr % 32) == 0) {
       Serial.print("\n 0x"); Serial.print(addr, HEX); Serial.print(": ");
     }

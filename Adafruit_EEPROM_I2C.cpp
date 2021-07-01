@@ -32,18 +32,8 @@ Adafruit_EEPROM_I2C::Adafruit_EEPROM_I2C(void) {}
  *    @return True if initialization was successful, otherwise false.
  */
 bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) {
-  i2c_addr = addr;
-  _wire = theWire;
-
-  _wire->begin();
-
-  // A basic scanner, see if it ACK's
-  _wire->beginTransmission(i2c_addr);
-  if (_wire->endTransmission() == 0) {
-    return true;
-  }
-
-  return false;
+  i2c_dev = new Adafruit_I2CDevice(addr, theWire);
+  return i2c_dev->begin();
 }
 
 /**************************************************************************/
@@ -56,21 +46,22 @@ bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) {
                 The 8-bit value to write at addr
 */
 /**************************************************************************/
-void Adafruit_EEPROM_I2C::write8(uint16_t addr, uint8_t value) {
-  _wire->beginTransmission(i2c_addr);
-  _wire->write(addr >> 8);
-  _wire->write(addr & 0xFF);
-  _wire->write(value);
-  _wire->endTransmission();
+bool Adafruit_EEPROM_I2C::write(uint16_t addr, uint8_t value) {
+  uint8_t buff[3] = {addr >> 8, addr & 0xFF, value};
+
+  if (! i2c_dev->write(buff, 3) ) 
+    return false;
 
   // Wait until it acks!
-  while (1) {
-    _wire->beginTransmission(i2c_addr);
-    if (_wire->endTransmission() == 0) {
-      return;
-    }
+  uint8_t timeout = 100;
+  while (timeout--) {
+    if (i2c_dev->detected()) 
+      return true;
     delay(1);
   }
+
+  // timed out :(
+  return false;
 }
 
 /**************************************************************************/
@@ -81,15 +72,11 @@ void Adafruit_EEPROM_I2C::write8(uint16_t addr, uint8_t value) {
     @returns    The 8-bit value retrieved at addr
 */
 /**************************************************************************/
-uint8_t Adafruit_EEPROM_I2C::read8(uint16_t addr) {
-  _wire->beginTransmission(i2c_addr);
-  _wire->write(addr >> 8);
-  _wire->write(addr & 0xFF);
-  _wire->endTransmission();
+uint8_t Adafruit_EEPROM_I2C::read(uint16_t addr) {
+  uint8_t buff[2] = {addr >> 8, addr & 0xFF};
 
-  size_t recv = _wire->requestFrom(i2c_addr, (uint8_t)1);
-  if (recv != 1) {
-    return 0;
-  }
-  return _wire->read();
+  if (! i2c_dev->write_then_read(buff, 2, buff, 1) ) 
+    return 0x0;
+
+  return buff[0];
 }
