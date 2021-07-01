@@ -1,6 +1,6 @@
-# Adafruit I2C FRAM Library[![Build Status](https://github.com/adafruit/Adafruit_FRAM_I2C/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_FRAM_I2C/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit_FRAM_I2C/html/index.html)
+# Adafruit I2C EEPROM & FRAM Library[![Build Status](https://github.com/adafruit/Adafruit_FRAM_I2C/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_FRAM_I2C/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit_FRAM_I2C/html/index.html)
 
-This is a library for our Adafruit I2C FRAM breakout.
+This is a library for our Adafruit I2C EEPROM & FRAM breakouts.
 
 <a href="https://www.adafruit.com/products/1895"><img src="assets/image.jpg" height="300"/></a>
 
