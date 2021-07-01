@@ -44,6 +44,7 @@ bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) {
                 The 16-bit address to write to in EEPROM memory
     @param[in] value
                 The 8-bit value to write at addr
+    @returns True on I2C command success, false on timeout or I2C failure
 */
 /**************************************************************************/
 bool Adafruit_EEPROM_I2C::write(uint16_t addr, uint8_t value) {
