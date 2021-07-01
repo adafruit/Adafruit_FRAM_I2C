@@ -84,6 +84,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a30d1b155898db481b91fd482065aacbb"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a30d1b155898db481b91fd482065aacbb">read</a> (uint16_t addr)</td></tr>
 <tr class="memdesc:a30d1b155898db481b91fd482065aacbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an 8 bit value from the specified EEPROM address.  <a href="#a30d1b155898db481b91fd482065aacbb">More...</a><br /></td></tr>
 <tr class="separator:a30d1b155898db481b91fd482065aacbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92209c0b38ea96149013555b95a02e45"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a92209c0b38ea96149013555b95a02e45">write</a> (uint16_t addr, uint8_t *buffer, uint16_t num)</td></tr>
+<tr class="memdesc:a92209c0b38ea96149013555b95a02e45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes multiple bytes at the specific EEPROM address.  <a href="#a92209c0b38ea96149013555b95a02e45">More...</a><br /></td></tr>
+<tr class="separator:a92209c0b38ea96149013555b95a02e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad882f121e1382b805aef0dbba5eb41ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#ad882f121e1382b805aef0dbba5eb41ba">read</a> (uint16_t addr, uint8_t *buffer, uint16_t num)</td></tr>
+<tr class="memdesc:ad882f121e1382b805aef0dbba5eb41ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads multiple bytes from the specified EEPROM address.  <a href="#ad882f121e1382b805aef0dbba5eb41ba">More...</a><br /></td></tr>
+<tr class="separator:ad882f121e1382b805aef0dbba5eb41ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a203252a183c8a4bdd8bae6f9718fca9a"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a203252a183c8a4bdd8bae6f9718fca9a"><td class="memTemplItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a203252a183c8a4bdd8bae6f9718fca9a">writeObject</a> (uint16_t addr, const T &amp;value)</td></tr>
 <tr class="memdesc:a203252a183c8a4bdd8bae6f9718fca9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write any object to memory.  <a href="#a203252a183c8a4bdd8bae6f9718fca9a">More...</a><br /></td></tr>
@@ -155,7 +161,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a0a6754e36fa9b511f597a9827b4b11db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a6754e36fa9b511f597a9827b4b11db">&#9670;&nbsp;</a></span>write()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a6754e36fa9b511f597a9827b4b11db">&#9670;&nbsp;</a></span>write() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -193,7 +199,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a30d1b155898db481b91fd482065aacbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30d1b155898db481b91fd482065aacbb">&#9670;&nbsp;</a></span>read()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a30d1b155898db481b91fd482065aacbb">&#9670;&nbsp;</a></span>read() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -212,6 +218,96 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">addr</td><td>The 16-bit address to read from in EEPROM memory </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The 8-bit value retrieved at addr </dd></dl>
+
+</div>
+</div>
+<a id="a92209c0b38ea96149013555b95a02e45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92209c0b38ea96149013555b95a02e45">&#9670;&nbsp;</a></span>write() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Adafruit_EEPROM_I2C::write </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>num</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Writes multiple bytes at the specific EEPROM address. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">addr</td><td>The 16-bit address to write to in EEPROM memory </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>Pointer to buffer of bytes to write </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">num</td><td>How many bytes to write! </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True on I2C command success, false on timeout or I2C failure </dd></dl>
+
+</div>
+</div>
+<a id="ad882f121e1382b805aef0dbba5eb41ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad882f121e1382b805aef0dbba5eb41ba">&#9670;&nbsp;</a></span>read() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Adafruit_EEPROM_I2C::read </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>num</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads multiple bytes from the specified EEPROM address. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">addr</td><td>The 16-bit address to read from in EEPROM memory </td></tr>
+    <tr><td class="paramname">buffer</td><td>Pointer to buffer of bytes that will be filled! </td></tr>
+    <tr><td class="paramname">num</td><td>How many bytes to write! </td></tr>
   </table>
   </dd>
 </dl>
