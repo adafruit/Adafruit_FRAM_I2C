@@ -24,9 +24,6 @@ public:
   bool write(uint16_t addr, uint8_t value);
   uint8_t read(uint16_t addr);
 
-  bool write(uint16_t addr, uint8_t *buffer);
-  bool read(uint16_t addr, uint8_t *buffer);
-
 private:
   Adafruit_I2CDevice *i2c_dev = NULL;
 };
