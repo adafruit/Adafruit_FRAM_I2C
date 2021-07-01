@@ -48,7 +48,7 @@ bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) {
 */
 /**************************************************************************/
 bool Adafruit_EEPROM_I2C::write(uint16_t addr, uint8_t value) {
-  uint8_t buff[3] = {addr >> 8, addr & 0xFF, value};
+  uint8_t buff[3] = {(uint8_t)(addr >> 8), (uint8_t)addr, value};
 
   if (!i2c_dev->write(buff, 3))
     return false;
@@ -74,10 +74,56 @@ bool Adafruit_EEPROM_I2C::write(uint16_t addr, uint8_t value) {
 */
 /**************************************************************************/
 uint8_t Adafruit_EEPROM_I2C::read(uint16_t addr) {
-  uint8_t buff[2] = {addr >> 8, addr & 0xFF};
+  uint8_t buff[2] = {(uint8_t)(addr >> 8), (uint8_t)addr};
 
   if (!i2c_dev->write_then_read(buff, 2, buff, 1))
     return 0x0;
 
   return buff[0];
+}
+
+/**************************************************************************/
+/*!
+    @brief  Writes multiple bytes at the specific EEPROM address
+
+    @param[in] addr
+                The 16-bit address to write to in EEPROM memory
+    @param[in] buffer Pointer to buffer of bytes to write
+    @param num How many bytes to write!
+    @returns True on I2C command success, false on timeout or I2C failure
+*/
+/**************************************************************************/
+bool Adafruit_EEPROM_I2C::write(uint16_t addr, uint8_t *buffer, uint16_t num) {
+  while (num--) {
+    if (!write(addr++, buffer[0])) {
+      return false;
+    }
+    buffer++;
+  }
+  return true;
+}
+
+/**************************************************************************/
+/*!
+    @brief  Reads multiple bytes from the specified EEPROM address
+    @param addr
+                The 16-bit address to read from in EEPROM memory
+    @param buffer Pointer to buffer of bytes that will be filled!
+    @param num How many bytes to write!
+    @returns    The 8-bit value retrieved at addr
+*/
+/**************************************************************************/
+bool Adafruit_EEPROM_I2C::read(uint16_t addr, uint8_t *buffer, uint16_t num) {
+
+  for (uint16_t i = 0; i < num; i++) {
+    uint8_t buff[2] = {(uint8_t)(addr >> 8), (uint8_t)addr};
+
+    if (!i2c_dev->write_then_read(buff, 2, buff, 1))
+      return false;
+    buffer[i] = buff[0];
+
+    addr++;
+  }
+
+  return true;
 }

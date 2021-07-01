@@ -23,6 +23,8 @@ public:
   bool begin(uint8_t addr = EEPROM_DEFAULT_ADDRESS, TwoWire *theWire = &Wire);
   bool write(uint16_t addr, uint8_t value);
   uint8_t read(uint16_t addr);
+  bool write(uint16_t addr, uint8_t *buffer, uint16_t num);
+  bool read(uint16_t addr, uint8_t *buffer, uint16_t num);
 
   /**************************************************************************/
   /*!
