@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['eeprom_5fdefault_5faddress',['EEPROM_DEFAULT_ADDRESS',['../_adafruit___e_e_p_r_o_m___i2_c_8h.html#a7c629e3be4b8371e5c66f2e7e0106a62',1,'Adafruit_EEPROM_I2C.h']]]
+  ['begin',['begin',['../class_adafruit___e_e_p_r_o_m___i2_c.html#a1f1416c1447372e31b6b117b4693bca3',1,'Adafruit_EEPROM_I2C::begin()'],['../class_adafruit___f_r_a_m___i2_c.html#af1b2bae69bc53adb305adb66276c43b8',1,'Adafruit_FRAM_I2C::begin()']]]
 ];

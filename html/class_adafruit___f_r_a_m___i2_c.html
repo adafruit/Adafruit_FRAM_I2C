@@ -70,23 +70,60 @@ $(function() {
  <a href="class_adafruit___f_r_a_m___i2_c.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_adafruit___f_r_a_m___i2_c_8h_source.html">Adafruit_FRAM_I2C.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Adafruit_FRAM_I2C:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_adafruit___f_r_a_m___i2_c.png" usemap="#Adafruit_5FFRAM_5FI2C_map" alt=""/>
+  <map id="Adafruit_5FFRAM_5FI2C_map" name="Adafruit_5FFRAM_5FI2C_map">
+<area href="class_adafruit___e_e_p_r_o_m___i2_c.html" title="Class that stores state and functions for interacting with I2C EEPROM chips. " alt="Adafruit_EEPROM_I2C" shape="rect" coords="0,0,143,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa46014c6d6ecd6d798e9adae3985c71d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___f_r_a_m___i2_c.html#aa46014c6d6ecd6d798e9adae3985c71d">Adafruit_FRAM_I2C</a> (void)</td></tr>
 <tr class="separator:aa46014c6d6ecd6d798e9adae3985c71d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3195aa277037a29516d9ee4242c58e6"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___f_r_a_m___i2_c.html#ab3195aa277037a29516d9ee4242c58e6">begin</a> (uint8_t addr=<a class="el" href="_adafruit___f_r_a_m___i2_c_8h.html#a01562124b5c3358870c7f374f6da99d5">MB85RC_DEFAULT_ADDRESS</a>)</td></tr>
-<tr class="memdesc:ab3195aa277037a29516d9ee4242c58e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the hardware and initializes I2C.  <a href="#ab3195aa277037a29516d9ee4242c58e6">More...</a><br /></td></tr>
-<tr class="separator:ab3195aa277037a29516d9ee4242c58e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f58ddf3e2f76b63df8165b978f5761c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___f_r_a_m___i2_c.html#a6f58ddf3e2f76b63df8165b978f5761c">write8</a> (uint16_t framAddr, uint8_t value)</td></tr>
-<tr class="memdesc:a6f58ddf3e2f76b63df8165b978f5761c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a byte at the specific FRAM address.  <a href="#a6f58ddf3e2f76b63df8165b978f5761c">More...</a><br /></td></tr>
-<tr class="separator:a6f58ddf3e2f76b63df8165b978f5761c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fd1a7c80b0b65e81e854a19df7d4124"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___f_r_a_m___i2_c.html#a6fd1a7c80b0b65e81e854a19df7d4124">read8</a> (uint16_t framAddr)</td></tr>
-<tr class="memdesc:a6fd1a7c80b0b65e81e854a19df7d4124"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an 8 bit value from the specified FRAM address.  <a href="#a6fd1a7c80b0b65e81e854a19df7d4124">More...</a><br /></td></tr>
-<tr class="separator:a6fd1a7c80b0b65e81e854a19df7d4124"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1b2bae69bc53adb305adb66276c43b8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___f_r_a_m___i2_c.html#af1b2bae69bc53adb305adb66276c43b8">begin</a> (uint8_t addr=<a class="el" href="_adafruit___f_r_a_m___i2_c_8h.html#a01562124b5c3358870c7f374f6da99d5">MB85RC_DEFAULT_ADDRESS</a>, TwoWire *theWire=&amp;Wire)</td></tr>
+<tr class="memdesc:af1b2bae69bc53adb305adb66276c43b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the hardware and initializes I2C.  <a href="#af1b2bae69bc53adb305adb66276c43b8">More...</a><br /></td></tr>
+<tr class="separator:af1b2bae69bc53adb305adb66276c43b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c56d96c61f6733bf8beb8758f69f61b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___f_r_a_m___i2_c.html#a3c56d96c61f6733bf8beb8758f69f61b">getDeviceID</a> (uint16_t *manufacturerID, uint16_t *productID)</td></tr>
 <tr class="memdesc:a3c56d96c61f6733bf8beb8758f69f61b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the Manufacturer ID and the Product ID frm the IC.  <a href="#a3c56d96c61f6733bf8beb8758f69f61b">More...</a><br /></td></tr>
 <tr class="separator:a3c56d96c61f6733bf8beb8758f69f61b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_adafruit___e_e_p_r_o_m___i2_c')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html">Adafruit_EEPROM_I2C</a></td></tr>
+<tr class="memitem:a5d3d9ba0a38286485c78d54de4806b8c inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a5d3d9ba0a38286485c78d54de4806b8c">Adafruit_EEPROM_I2C</a> (void)</td></tr>
+<tr class="separator:a5d3d9ba0a38286485c78d54de4806b8c inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f1416c1447372e31b6b117b4693bca3 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a1f1416c1447372e31b6b117b4693bca3">begin</a> (uint8_t addr=<a class="el" href="_adafruit___e_e_p_r_o_m___i2_c_8h.html#a7c629e3be4b8371e5c66f2e7e0106a62">EEPROM_DEFAULT_ADDRESS</a>, TwoWire *theWire=&amp;Wire)</td></tr>
+<tr class="memdesc:a1f1416c1447372e31b6b117b4693bca3 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the hardware and initializes I2C.  <a href="class_adafruit___e_e_p_r_o_m___i2_c.html#a1f1416c1447372e31b6b117b4693bca3">More...</a><br /></td></tr>
+<tr class="separator:a1f1416c1447372e31b6b117b4693bca3 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a6754e36fa9b511f597a9827b4b11db inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a0a6754e36fa9b511f597a9827b4b11db">write</a> (uint16_t addr, uint8_t value)</td></tr>
+<tr class="memdesc:a0a6754e36fa9b511f597a9827b4b11db inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a byte at the specific EEPROM address.  <a href="class_adafruit___e_e_p_r_o_m___i2_c.html#a0a6754e36fa9b511f597a9827b4b11db">More...</a><br /></td></tr>
+<tr class="separator:a0a6754e36fa9b511f597a9827b4b11db inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30d1b155898db481b91fd482065aacbb inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a30d1b155898db481b91fd482065aacbb">read</a> (uint16_t addr)</td></tr>
+<tr class="memdesc:a30d1b155898db481b91fd482065aacbb inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an 8 bit value from the specified EEPROM address.  <a href="class_adafruit___e_e_p_r_o_m___i2_c.html#a30d1b155898db481b91fd482065aacbb">More...</a><br /></td></tr>
+<tr class="separator:a30d1b155898db481b91fd482065aacbb inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92209c0b38ea96149013555b95a02e45 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a92209c0b38ea96149013555b95a02e45">write</a> (uint16_t addr, uint8_t *buffer, uint16_t num)</td></tr>
+<tr class="memdesc:a92209c0b38ea96149013555b95a02e45 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes multiple bytes at the specific EEPROM address.  <a href="class_adafruit___e_e_p_r_o_m___i2_c.html#a92209c0b38ea96149013555b95a02e45">More...</a><br /></td></tr>
+<tr class="separator:a92209c0b38ea96149013555b95a02e45 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad882f121e1382b805aef0dbba5eb41ba inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#ad882f121e1382b805aef0dbba5eb41ba">read</a> (uint16_t addr, uint8_t *buffer, uint16_t num)</td></tr>
+<tr class="memdesc:ad882f121e1382b805aef0dbba5eb41ba inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads multiple bytes from the specified EEPROM address.  <a href="class_adafruit___e_e_p_r_o_m___i2_c.html#ad882f121e1382b805aef0dbba5eb41ba">More...</a><br /></td></tr>
+<tr class="separator:ad882f121e1382b805aef0dbba5eb41ba inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a203252a183c8a4bdd8bae6f9718fca9a inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a203252a183c8a4bdd8bae6f9718fca9a inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memTemplItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a203252a183c8a4bdd8bae6f9718fca9a">writeObject</a> (uint16_t addr, const T &amp;value)</td></tr>
+<tr class="memdesc:a203252a183c8a4bdd8bae6f9718fca9a inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write any object to memory.  <a href="class_adafruit___e_e_p_r_o_m___i2_c.html#a203252a183c8a4bdd8bae6f9718fca9a">More...</a><br /></td></tr>
+<tr class="separator:a203252a183c8a4bdd8bae6f9718fca9a inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81ed680b7c33b666b28084abe10b1c12 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a81ed680b7c33b666b28084abe10b1c12 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memTemplItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a81ed680b7c33b666b28084abe10b1c12">readObject</a> (uint16_t addr, T &amp;value)</td></tr>
+<tr class="memdesc:a81ed680b7c33b666b28084abe10b1c12 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read any object from memory.  <a href="class_adafruit___e_e_p_r_o_m___i2_c.html#a81ed680b7c33b666b28084abe10b1c12">More...</a><br /></td></tr>
+<tr class="separator:a81ed680b7c33b666b28084abe10b1c12 inherit pub_methods_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_class_adafruit___e_e_p_r_o_m___i2_c"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_adafruit___e_e_p_r_o_m___i2_c')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html">Adafruit_EEPROM_I2C</a></td></tr>
+<tr class="memitem:a8ee2d8677fa05dd11b5bdb904653a284 inherit pro_attribs_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memItemLeft" align="right" valign="top">Adafruit_I2CDevice *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a8ee2d8677fa05dd11b5bdb904653a284">i2c_dev</a> = NULL</td></tr>
+<tr class="separator:a8ee2d8677fa05dd11b5bdb904653a284 inherit pro_attribs_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ab5977cc1e2c9cc39b17e5de25ed6e4 inherit pro_attribs_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a0ab5977cc1e2c9cc39b17e5de25ed6e4">_addr</a> = 0</td></tr>
+<tr class="separator:a0ab5977cc1e2c9cc39b17e5de25ed6e4 inherit pro_attribs_class_adafruit___e_e_p_r_o_m___i2_c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class that stores state and functions for interacting with I2C FRAM chips. </p>
@@ -111,8 +148,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab3195aa277037a29516d9ee4242c58e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3195aa277037a29516d9ee4242c58e6">&#9670;&nbsp;</a></span>begin()</h2>
+<a id="af1b2bae69bc53adb305adb66276c43b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1b2bae69bc53adb305adb66276c43b8">&#9670;&nbsp;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -121,40 +158,13 @@ Public Member Functions</h2></td></tr>
           <td class="memname">bool Adafruit_FRAM_I2C::begin </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>addr</em> = <code><a class="el" href="_adafruit___f_r_a_m___i2_c_8h.html#a01562124b5c3358870c7f374f6da99d5">MB85RC_DEFAULT_ADDRESS</a></code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Sets up the hardware and initializes I2C. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">addr</td><td>The I2C address to be used. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if initialization was successful, otherwise false. </dd></dl>
-
-</div>
-</div>
-<a id="a6f58ddf3e2f76b63df8165b978f5761c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f58ddf3e2f76b63df8165b978f5761c">&#9670;&nbsp;</a></span>write8()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Adafruit_FRAM_I2C::write8 </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>framAddr</em>, </td>
+          <td class="paramname"><em>addr</em> = <code><a class="el" href="_adafruit___f_r_a_m___i2_c_8h.html#a01562124b5c3358870c7f374f6da99d5">MB85RC_DEFAULT_ADDRESS</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
+          <td class="paramtype">TwoWire *&#160;</td>
+          <td class="paramname"><em>theWire</em> = <code>&amp;Wire</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -164,41 +174,15 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Writes a byte at the specific FRAM address. </p>
+<p>Sets up the hardware and initializes I2C. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">framAddr</td><td>The 16-bit address to write to in FRAM memory </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The 8-bit value to write at framAddr </td></tr>
+    <tr><td class="paramname">addr</td><td>The I2C address to be used. </td></tr>
+    <tr><td class="paramname">theWire</td><td>The Wire object to be used for I2C connections. </td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a6fd1a7c80b0b65e81e854a19df7d4124"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6fd1a7c80b0b65e81e854a19df7d4124">&#9670;&nbsp;</a></span>read8()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t Adafruit_FRAM_I2C::read8 </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>framAddr</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Reads an 8 bit value from the specified FRAM address. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">framAddr</td><td>The 16-bit address to read from in FRAM memory</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The 8-bit value retrieved at framAddr </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if initialization was successful, otherwise false. </dd></dl>
 
 </div>
 </div>

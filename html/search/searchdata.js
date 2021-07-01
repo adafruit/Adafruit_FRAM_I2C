@@ -1,11 +1,12 @@
 var indexSectionsWithContent =
 {
-  0: "abegmrw",
+  0: "_abegimrw",
   1: "a",
   2: "a",
   3: "abgrw",
-  4: "em",
-  5: "a"
+  4: "_i",
+  5: "em",
+  6: "a"
 };
 
 var indexSectionNames =
@@ -14,8 +15,9 @@ var indexSectionNames =
   1: "classes",
   2: "files",
   3: "functions",
-  4: "defines",
-  5: "pages"
+  4: "variables",
+  5: "defines",
+  6: "pages"
 };
 
 var indexSectionLabels =
@@ -24,7 +26,8 @@ var indexSectionLabels =
   1: "Classes",
   2: "Files",
   3: "Functions",
-  4: "Macros",
-  5: "Pages"
+  4: "Variables",
+  5: "Macros",
+  6: "Pages"
 };
 

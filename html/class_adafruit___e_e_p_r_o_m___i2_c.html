@@ -60,6 +60,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_adafruit___e_e_p_r_o_m___i2_c-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Adafruit_EEPROM_I2C Class Reference</div>  </div>
@@ -70,6 +71,15 @@ $(function() {
  <a href="class_adafruit___e_e_p_r_o_m___i2_c.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_adafruit___e_e_p_r_o_m___i2_c_8h_source.html">Adafruit_EEPROM_I2C.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Adafruit_EEPROM_I2C:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_adafruit___e_e_p_r_o_m___i2_c.png" usemap="#Adafruit_5FEEPROM_5FI2C_map" alt=""/>
+  <map id="Adafruit_5FEEPROM_5FI2C_map" name="Adafruit_5FEEPROM_5FI2C_map">
+<area href="class_adafruit___f_r_a_m___i2_c.html" title="Class that stores state and functions for interacting with I2C FRAM chips. " alt="Adafruit_FRAM_I2C" shape="rect" coords="0,56,143,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -98,6 +108,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a81ed680b7c33b666b28084abe10b1c12"><td class="memTemplItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a81ed680b7c33b666b28084abe10b1c12">readObject</a> (uint16_t addr, T &amp;value)</td></tr>
 <tr class="memdesc:a81ed680b7c33b666b28084abe10b1c12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read any object from memory.  <a href="#a81ed680b7c33b666b28084abe10b1c12">More...</a><br /></td></tr>
 <tr class="separator:a81ed680b7c33b666b28084abe10b1c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a8ee2d8677fa05dd11b5bdb904653a284"><td class="memItemLeft" align="right" valign="top">Adafruit_I2CDevice *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a8ee2d8677fa05dd11b5bdb904653a284">i2c_dev</a> = NULL</td></tr>
+<tr class="separator:a8ee2d8677fa05dd11b5bdb904653a284"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ab5977cc1e2c9cc39b17e5de25ed6e4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_e_p_r_o_m___i2_c.html#a0ab5977cc1e2c9cc39b17e5de25ed6e4">_addr</a> = 0</td></tr>
+<tr class="separator:a0ab5977cc1e2c9cc39b17e5de25ed6e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class that stores state and functions for interacting with I2C EEPROM chips. </p>
@@ -408,6 +425,53 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of bytes read </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a8ee2d8677fa05dd11b5bdb904653a284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ee2d8677fa05dd11b5bdb904653a284">&#9670;&nbsp;</a></span>i2c_dev</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Adafruit_I2CDevice* Adafruit_EEPROM_I2C::i2c_dev = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The internal I2C device for communication </p>
+
+</div>
+</div>
+<a id="a0ab5977cc1e2c9cc39b17e5de25ed6e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ab5977cc1e2c9cc39b17e5de25ed6e4">&#9670;&nbsp;</a></span>_addr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t Adafruit_EEPROM_I2C::_addr = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The I2C address, sometimes needed! </p>
 
 </div>
 </div>
