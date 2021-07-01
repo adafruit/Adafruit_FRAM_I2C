@@ -21,11 +21,8 @@ void setup(void) {
     while (1) delay(10);
   }
   
-  // Read the first byte
-  uint8_t test = i2ceeprom.read(0x0);
-  Serial.print("Restarted "); Serial.print(test); Serial.println(" times");
-  // Test write ++
-  test++;
+  // Write the first byte to 0xAF
+  uint8_t test = 0xAF;
   i2ceeprom.write(0x0, test);
 
   // Try to determine the size by writing a value and seeing if it changes the first byte
@@ -61,18 +58,36 @@ void setup(void) {
   Serial.print(max_addr);
   Serial.println(" bytes");
     
-  // dump the memory
+  // validate the memory
+  Serial.println("Validating every address in memory");
   uint8_t val;
   for (uint16_t addr = 0; addr < max_addr; addr++) {
-    val = i2ceeprom.read(addr);
-    if ((addr % 32) == 0) {
-      Serial.print("\n 0x"); Serial.print(addr, HEX); Serial.print(": ");
+    if (addr % 32 == 0) {
+      Serial.print("Testing address ");
+      Serial.print(addr);
+      Serial.print(" thru ");
+      Serial.println(addr+31);
     }
-    Serial.print("0x"); 
-    if (val < 0x10) 
-      Serial.print('0');
-    Serial.print(val, HEX); Serial.print(" ");
+    val = i2ceeprom.read(addr);
+    
+    i2ceeprom.write(addr, 0x55);
+    if (i2ceeprom.read(addr) != 0x55) {
+      Serial.print("Failed to write 0x55 to address 0x");
+      Serial.println(addr, HEX);
+    }
+    i2ceeprom.write(addr, 0xAA);
+    if (i2ceeprom.read(addr) != 0xAA) {
+      Serial.print("Failed to write 0xAA to address 0x");
+      Serial.println(addr, HEX);
+    }
+    
+    i2ceeprom.write(addr, val);
+    if (i2ceeprom.read(addr) != val) {
+      Serial.print("Failed to write original value to address 0x");
+      Serial.println(addr, HEX);
+    }
   }
+  Serial.println("Validated!");
 }
 
 void loop(void) {

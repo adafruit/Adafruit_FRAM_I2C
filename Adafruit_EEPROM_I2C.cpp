@@ -32,18 +32,8 @@ Adafruit_EEPROM_I2C::Adafruit_EEPROM_I2C(void) {}
  *    @return True if initialization was successful, otherwise false.
  */
 bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) {
-  i2c_addr = addr;
-  _wire = theWire;
-
-  _wire->begin();
-
-  // A basic scanner, see if it ACK's
-  _wire->beginTransmission(i2c_addr);
-  if (_wire->endTransmission() == 0) {
-    return true;
-  }
-
-  return false;
+  i2c_dev = new Adafruit_I2CDevice(addr, theWire);
+  return i2c_dev->begin();
 }
 
 /**************************************************************************/
@@ -54,23 +44,25 @@ bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) {
                 The 16-bit address to write to in EEPROM memory
     @param[in] value
                 The 8-bit value to write at addr
+    @returns True on I2C command success, false on timeout or I2C failure
 */
 /**************************************************************************/
-void Adafruit_EEPROM_I2C::write8(uint16_t addr, uint8_t value) {
-  _wire->beginTransmission(i2c_addr);
-  _wire->write(addr >> 8);
-  _wire->write(addr & 0xFF);
-  _wire->write(value);
-  _wire->endTransmission();
+bool Adafruit_EEPROM_I2C::write(uint16_t addr, uint8_t value) {
+  uint8_t buff[3] = {(uint8_t)(addr >> 8), (uint8_t)addr, value};
+
+  if (!i2c_dev->write(buff, 3))
+    return false;
 
   // Wait until it acks!
-  while (1) {
-    _wire->beginTransmission(i2c_addr);
-    if (_wire->endTransmission() == 0) {
-      return;
-    }
+  uint8_t timeout = 100;
+  while (timeout--) {
+    if (i2c_dev->detected())
+      return true;
     delay(1);
   }
+
+  // timed out :(
+  return false;
 }
 
 /**************************************************************************/
@@ -81,15 +73,57 @@ void Adafruit_EEPROM_I2C::write8(uint16_t addr, uint8_t value) {
     @returns    The 8-bit value retrieved at addr
 */
 /**************************************************************************/
-uint8_t Adafruit_EEPROM_I2C::read8(uint16_t addr) {
-  _wire->beginTransmission(i2c_addr);
-  _wire->write(addr >> 8);
-  _wire->write(addr & 0xFF);
-  _wire->endTransmission();
+uint8_t Adafruit_EEPROM_I2C::read(uint16_t addr) {
+  uint8_t buff[2] = {(uint8_t)(addr >> 8), (uint8_t)addr};
 
-  size_t recv = _wire->requestFrom(i2c_addr, (uint8_t)1);
-  if (recv != 1) {
-    return 0;
+  if (!i2c_dev->write_then_read(buff, 2, buff, 1))
+    return 0x0;
+
+  return buff[0];
+}
+
+/**************************************************************************/
+/*!
+    @brief  Writes multiple bytes at the specific EEPROM address
+
+    @param[in] addr
+                The 16-bit address to write to in EEPROM memory
+    @param[in] buffer Pointer to buffer of bytes to write
+    @param num How many bytes to write!
+    @returns True on I2C command success, false on timeout or I2C failure
+*/
+/**************************************************************************/
+bool Adafruit_EEPROM_I2C::write(uint16_t addr, uint8_t *buffer, uint16_t num) {
+  while (num--) {
+    if (!write(addr++, buffer[0])) {
+      return false;
+    }
+    buffer++;
   }
-  return _wire->read();
+  return true;
+}
+
+/**************************************************************************/
+/*!
+    @brief  Reads multiple bytes from the specified EEPROM address
+    @param addr
+                The 16-bit address to read from in EEPROM memory
+    @param buffer Pointer to buffer of bytes that will be filled!
+    @param num How many bytes to write!
+    @returns    The 8-bit value retrieved at addr
+*/
+/**************************************************************************/
+bool Adafruit_EEPROM_I2C::read(uint16_t addr, uint8_t *buffer, uint16_t num) {
+
+  for (uint16_t i = 0; i < num; i++) {
+    uint8_t buff[2] = {(uint8_t)(addr >> 8), (uint8_t)addr};
+
+    if (!i2c_dev->write_then_read(buff, 2, buff, 1))
+      return false;
+    buffer[i] = buff[0];
+
+    addr++;
+  }
+
+  return true;
 }
