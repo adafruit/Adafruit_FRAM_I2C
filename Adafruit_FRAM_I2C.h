@@ -19,28 +19,26 @@
 #ifndef _ADAFRUIT_FRAM_I2C_H_
 #define _ADAFRUIT_FRAM_I2C_H_
 
-#include <Adafruit_I2CDevice.h>
-#include <Arduino.h>
+#include <Adafruit_EEPROM_I2C.h>
 
 #define MB85RC_DEFAULT_ADDRESS                                                 \
-  (0x50)                       ///<* 1010 + A2 + A1 + A0 = 0x50 default */
-#define MB85RC_SLAVE_ID (0xF8) ///< SLAVE ID
+  (0x50) ///<* 1010 + A2 + A1 + A0 = 0x50 default */
+#define MB85RC_SECONDARY_ADDRESS                                               \
+  (0x7C) ///< secondary ID for manufacture id info
 
 /*!
  *    @brief  Class that stores state and functions for interacting with
  *            I2C FRAM chips
  */
-class Adafruit_FRAM_I2C {
+class Adafruit_FRAM_I2C : public Adafruit_EEPROM_I2C {
 public:
   Adafruit_FRAM_I2C(void);
 
-  boolean begin(uint8_t addr = MB85RC_DEFAULT_ADDRESS);
-  void write8(uint16_t framAddr, uint8_t value);
-  uint8_t read8(uint16_t framAddr);
+  bool begin(uint8_t addr = MB85RC_DEFAULT_ADDRESS, TwoWire *theWire = &Wire);
   void getDeviceID(uint16_t *manufacturerID, uint16_t *productID);
 
 private:
-  uint8_t i2c_addr;
+  Adafruit_I2CDevice *i2c_dev2 = NULL;
   boolean _framInitialised;
 };
 

@@ -33,6 +33,8 @@ Adafruit_EEPROM_I2C::Adafruit_EEPROM_I2C(void) {}
  */
 bool Adafruit_EEPROM_I2C::begin(uint8_t addr, TwoWire *theWire) {
   i2c_dev = new Adafruit_I2CDevice(addr, theWire);
+  _addr = addr;
+
   return i2c_dev->begin();
 }
 

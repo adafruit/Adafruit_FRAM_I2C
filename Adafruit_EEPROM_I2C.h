@@ -63,8 +63,11 @@ public:
     return n;
   }
 
-private:
+protected:
+  /*! The internal I2C device for communication */
   Adafruit_I2CDevice *i2c_dev = NULL;
+  /*! The I2C address, sometimes needed! */
+  uint8_t _addr = 0;
 };
 
 #endif

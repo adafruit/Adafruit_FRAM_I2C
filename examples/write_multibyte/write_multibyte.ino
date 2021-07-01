@@ -1,6 +1,7 @@
 #include "Adafruit_EEPROM_I2C.h"
+#include "Adafruit_FRAM_I2C.h"
 
-/* Example code for the Adafruit I2C EEPROM breakout */
+/* Example code for the Adafruit I2C EEPROM/FRAM breakout */
 
 /* Connect SCL    to SCL
    Connect SDA    to SDA
@@ -8,6 +9,7 @@
    Connect GROUND to common ground */
    
 Adafruit_EEPROM_I2C i2ceeprom;
+//Adafruit_FRAM_I2C i2ceeprom;
 
 #define EEPROM_ADDR 0x50  // the default address!
 
